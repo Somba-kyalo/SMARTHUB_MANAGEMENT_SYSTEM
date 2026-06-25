@@ -1,0 +1,66 @@
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f6f9;
+}
+
+.container{
+    width:90%;
+    margin:auto;
+    padding:30px;
+}
+
+.student-card{
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 0 10px rgba(0,0,0,.1);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    box-shadow:0 0 10px rgba(0,0,0,.1);
+}
+
+th{
+    background:#0047ab;
+    color:white;
+}
+
+th,td{
+    padding:15px;
+    border:1px solid #ddd;
+    text-align:center;
+}
+
+.performance{
+    margin-top:30px;
+    text-align:center;
+}
+
+.danger{
+    color:red;
+}
+
+.warning{
+    color:orange;
+}
+
+.good{
+    color:green;
+}
+
+.excellent{
+    color:#0047ab;
+}
+
+.chart-box{
+    background:white;
+    margin-top:30px;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,.1);
+}

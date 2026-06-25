@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | SmartHub</title>
+
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <header class="dashboard-header">
+        <h1>Student Dashboard</h1>
+        <p>Welcome {{ request.user.username }}</p>
+    </header>
+
+    <div class="dashboard-grid">
+
+        <a href="{% url 'profile' %}" class="dashboard-card">
+            <i class="fas fa-user-circle"></i>
+            <h3>Profile</h3>
+            <p>View and update your personal information.</p>
+        </a>
+
+        <a href="{% url 'payment' %}" class="dashboard-card">
+            <i class="fas fa-wallet"></i>
+            <h3>Payments</h3>
+            <p>Check fee balances and payment records.</p>
+        </a>
+
+        <a href="{% url 'results' %}" class="dashboard-card">
+            <i class="fas fa-chart-line"></i>
+            <h3>Results</h3>
+            <p>View examination and academic results.</p>
+        </a>
+
+        <a href="{% url 'unit_registration' %}" class="dashboard-card">
+            <i class="fas fa-book-open"></i>
+            <h3>Unit Registration</h3>
+            <p>Register semester units and courses.</p>
+        </a>
+
+        <a href="{% url 'elections' %}" class="dashboard-card">
+            <i class="fas fa-vote-yea"></i>
+            <h3>Elections</h3>
+            <p>Participate in student leadership elections.</p>
+        </a>
+
+        <a href="{% url 'lecturer_evaluation' %}" class="dashboard-card">
+            <i class="fas fa-star"></i>
+            <h3>Lecturer Evaluation</h3>
+            <p>Evaluate lecturers and teaching services.</p>
+        </a>
+
+        <a href="{% url 'announcements' %}" class="dashboard-card">
+            <i class="fas fa-bullhorn"></i>
+            <h3>Announcements</h3>
+            <p>Read important notices and updates.</p>
+        </a>
+
+        <a href="{% url 'timetable' %}" class="dashboard-card">
+            <i class="fas fa-calendar-alt"></i>
+            <h3>Timetable</h3>
+            <p>View your class schedule.</p>
+        </a>
+
+        <a href="{% url 'academic_calendar' %}" class="dashboard-card">
+            <i class="fas fa-calendar-check"></i>
+            <h3>Academic Calendar</h3>
+            <p>Check important academic dates.</p>
+        </a>
+
+        <a href="{% url 'help_support' %}" class="dashboard-card">
+            <i class="fas fa-headset"></i>
+            <h3>Help & Support</h3>
+            <p>Get assistance from the administration.</p>
+        </a>
+
+        <a href="{% url 'logout' %}" class="dashboard-card logout-card">
+            <i class="fas fa-sign-out-alt"></i>
+            <h3>Logout</h3>
+            <p>Securely sign out of the system.</p>
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

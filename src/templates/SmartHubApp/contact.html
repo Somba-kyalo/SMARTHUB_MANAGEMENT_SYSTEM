@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | SmartHub Tech Institute</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+</head>
+<body>
+
+<header class="sky">
+    <div class="sky-left">
+        <div class="identity">
+            <h2>Smart<span>Hub</span></h2>
+        </div>
+    </div>
+
+    <nav class="sky-center">
+        <ul class="air-links">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'departments' %}">Departments</a></li>
+            <li><a href="{% url 'courses' %}">Courses</a></li>
+            <li><a href="{% url 'contact' %}" class="active">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="sky-right">
+        <a href="{% url 'login' %}" class="button-ghost">Login</a>
+        <a href="{% url 'signup' %}" class="button-prime">Sign Up</a>
+    </div>
+</header>
+
+
+<section class="garden">
+
+    <div class="garden-header">
+        <h1>Get in <span>Touch</span></h1>
+        <p>Reach out for admissions, technical support, academic guidance, or partnership inquiries. Our team responds within 24 hours.</p>
+    </div>
+
+    <div class="garden-split">
+
+        <div class="leaf-column">
+
+            <div class="leaf-card">
+                <i class="fas fa-envelope leaf-icon"></i>
+                <div class="leaf-info">
+                    <h3>Email Support</h3>
+                    <p>support@smarthubtech.edu</p>
+                    <p>admissions@smarthubtech.edu</p>
+                </div>
+            </div>
+
+            <div class="leaf-card">
+                <i class="fas fa-phone-alt leaf-icon"></i>
+                <div class="leaf-info">
+                    <h3>Phone Contact</h3>
+                    <p>+254 700 000 000</p>
+                    <p>Mon - Fri: 8:00 AM - 5:00 PM</p>
+                </div>
+            </div>
+
+            <div class="leaf-card">
+                <i class="fas fa-map-marker-alt leaf-icon"></i>
+                <div class="leaf-info">
+                    <h3>Campus Location</h3>
+                    <p>SmartHub Tech Institute</p>
+                    <p>Innovation District, Nairobi</p>
+                </div>
+            </div>
+
+            <div class="leaf-card">
+                <i class="fas fa-headset leaf-icon"></i>
+                <div class="leaf-info">
+                    <h3>Technical Help Desk</h3>
+                    <p>Portal login issues</p>
+                    <p>System & account recovery</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="soil-column">
+
+            <form action="#" method="POST" class="soil-form">
+                {% csrf_token %}
+
+                <div class="form-twin">
+                    <div class="seed-group">
+                        <label>Full Name</label>
+                        <input type="text" name="name" required class="seed-input" placeholder="John Doe">
+                    </div>
+
+                    <div class="seed-group">
+                        <label>Email Address</label>
+                        <input type="email" name="email" required class="seed-input" placeholder="john@example.com">
+                    </div>
+                </div>
+
+                <div class="seed-group">
+                    <label>Phone Number (Optional)</label>
+                    <input type="text" name="phone" class="seed-input" placeholder="+254 7XX XXX XXX">
+                </div>
+
+                <div class="seed-group">
+                    <label>Inquiry Type</label>
+                    <select name="inquiry_type" class="seed-input" required>
+                        <option value="">Select category</option>
+                        <option value="admissions">Admissions</option>
+                        <option value="technical">Technical Support</option>
+                        <option value="academic">Academic Issue</option>
+                        <option value="fees">Fees & Payments</option>
+                        <option value="partnership">Partnership</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="seed-group">
+                    <label>Subject</label>
+                    <input type="text" name="subject" required class="seed-input" placeholder="Brief subject">
+                </div>
+
+                <div class="seed-group">
+                    <label>Message</label>
+                    <textarea name="message" rows="6" required class="seed-input" placeholder="Write your message in detail..."></textarea>
+                </div>
+
+                <button type="submit" class="button-prime full-width">
+                    Send Message <i class="fas fa-paper-plane"></i>
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer class="root">
+    <p>&copy; 2026 SmartHub Tech Institute. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Academic Results</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/results.css' %}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Academic Results</h1>
+
+    <div class="student-card">
+        <h2>
+            {{ student.first_name }}
+            {{ student.last_name }}
+        </h2>
+
+        <p>
+            Admission:
+            {{ student.admission_number }}
+        </p>
+
+        <p>
+            Course:
+            {{ student.course }}
+        </p>
+
+        <h3>
+            Mean Score:
+            {{ average }}%
+        </h3>
+    </div>
+
+    <table>
+
+        <tr>
+            <th>Unit</th>
+            <th>CAT</th>
+            <th>Exam</th>
+            <th>Total</th>
+            <th>Grade</th>
+            <th>Remark</th>
+        </tr>
+
+        {% for result in results %}
+
+        <tr>
+
+            <td>
+                {{ result.unit.unit_name }}
+            </td>
+
+            <td>
+                {{ result.cat }}
+            </td>
+
+            <td>
+                {{ result.exam }}
+            </td>
+
+            <td>
+                {{ result.total }}
+            </td>
+
+            <td class="grade">
+                {{ result.grade }}
+            </td>
+
+            <td>
+                {{ result.remark }}
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    <div class="performance">
+
+        {% if average < 40 %}
+            <h2 class="danger">
+                Supplementary Required
+            </h2>
+
+        {% elif average < 60 %}
+            <h2 class="warning">
+                Fair Performance
+            </h2>
+
+        {% elif average < 70 %}
+            <h2 class="good">
+                Good Performance
+            </h2>
+
+        {% else %}
+            <h2 class="excellent">
+                Excellent Performance
+            </h2>
+        {% endif %}
+
+    </div>
+
+    <div class="chart-box">
+        <canvas id="chart"></canvas>
+    </div>
+
+</div>
+
+<script>
+
+const labels = [
+    {% for result in results %}
+        "{{ result.unit.unit_code }}",
+    {% endfor %}
+];
+
+const scores = [
+    {% for result in results %}
+        {{ result.total }},
+    {% endfor %}
+];
+
+new Chart(
+    document.getElementById("chart"),
+    {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Marks",
+                data: scores
+            }]
+        }
+    }
+);
+
+</script>
+
+</body>
+</html>

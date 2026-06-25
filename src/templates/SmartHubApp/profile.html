@@ -1,0 +1,190 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Student Profile</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/profile.css' %}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="profile-card">
+
+        <div class="profile-header">
+
+            {% if student.profile_photo %}
+                <img src="{{ student.profile_photo.url }}"
+                     alt="Profile Photo">
+            {% else %}
+                <img src="{% static 'images/default.png' %}"
+                     alt="Profile Photo">
+            {% endif %}
+
+            <h1>
+                {{ student.first_name }}
+                {{ student.last_name }}
+            </h1>
+
+            <p>{{ student.course }}</p>
+
+        </div>
+
+        <div class="section">
+
+            <h2>Personal Information</h2>
+
+            <div class="row">
+                <strong>First Name:</strong>
+                {{ student.first_name }}
+            </div>
+
+            <div class="row">
+                <strong>Middle Name:</strong>
+                {{ student.middle_name }}
+            </div>
+
+            <div class="row">
+                <strong>Last Name:</strong>
+                {{ student.last_name }}
+            </div>
+
+            <div class="row">
+                <strong>Date of Birth:</strong>
+                {{ student.dob }}
+            </div>
+
+            <div class="row">
+                <strong>Gender:</strong>
+                {{ student.gender }}
+            </div>
+
+            <div class="row">
+                <strong>Nationality:</strong>
+                {{ student.nationality }}
+            </div>
+
+            <div class="row">
+                <strong>Phone Number:</strong>
+                {{ student.phone_number }}
+            </div>
+
+        </div>
+
+        <div class="section">
+
+            <h2>Address Information</h2>
+
+            <div class="row">
+                <strong>Address:</strong>
+                {{ student.address }}
+            </div>
+
+            <div class="row">
+                <strong>County:</strong>
+                {{ student.county }}
+            </div>
+
+            <div class="row">
+                <strong>Postal Code:</strong>
+                {{ student.postal_code }}
+            </div>
+
+        </div>
+
+        <div class="section">
+
+            <h2>Academic Information</h2>
+
+            <div class="row">
+                <strong>Faculty:</strong>
+                {{ student.faculty }}
+            </div>
+
+            <div class="row">
+                <strong>Department:</strong>
+                {{ student.department }}
+            </div>
+
+            <div class="row">
+                <strong>Course:</strong>
+                {{ student.course }}
+            </div>
+
+            <div class="row">
+                <strong>Admission Number:</strong>
+                {{ student.admission_number }}
+            </div>
+
+            <div class="row">
+                <strong>Year:</strong>
+                {{ student.year_of_study }}
+            </div>
+
+            <div class="row">
+                <strong>Study Mode:</strong>
+                {{ student.study_mode }}
+            </div>
+
+        </div>
+
+        <div class="section">
+
+            <h2>Guardian Information</h2>
+
+            <div class="row">
+                <strong>Guardian Name:</strong>
+                {{ student.guardian_name }}
+            </div>
+
+            <div class="row">
+                <strong>Guardian Phone:</strong>
+                {{ student.guardian_phone }}
+            </div>
+
+        </div>
+
+        <div class="section">
+
+            <h2>Account Information</h2>
+
+            <div class="row">
+                <strong>Username:</strong>
+                {{ student.username }}
+            </div>
+
+            <div class="row">
+                <strong>Personal Email:</strong>
+                {{ student.personal_email }}
+            </div>
+
+            <div class="row">
+                <strong>Institution Email:</strong>
+                {{ student.institution_email }}
+            </div>
+
+        </div>
+
+        <div class="buttons">
+            <a href="{% url 'dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'logout' %}">
+                Logout
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

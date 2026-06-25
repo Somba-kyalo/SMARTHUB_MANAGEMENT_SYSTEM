@@ -1,0 +1,195 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Student Account</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/signup.css' %}">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Student Registration</h1>
+
+        {% if error %}
+            <div class="error">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="POST"
+              enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <h2>Personal Information</h2>
+
+            <div class="row">
+                <input type="text"
+                       name="first_name"
+                       placeholder="First Name"
+                       required>
+
+                <input type="text"
+                       name="middle_name"
+                       placeholder="Middle Name">
+            </div>
+
+            <div class="row">
+                <input type="text"
+                       name="last_name"
+                       placeholder="Last Name"
+                       required>
+
+                <input type="date"
+                       name="dob"
+                       required>
+            </div>
+
+            <div class="row">
+                <select name="gender" required>
+                    <option value="">Gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>
+
+                <input type="text"
+                       name="nationality"
+                       placeholder="Nationality"
+                       required>
+            </div>
+
+            <input type="text"
+                   name="phone_number"
+                   placeholder="Phone Number"
+                   required>
+
+            <textarea name="address"
+                      placeholder="Address"
+                      required></textarea>
+
+            <div class="row">
+                <input type="text"
+                       name="county"
+                       placeholder="County"
+                       required>
+
+                <input type="text"
+                       name="postal_code"
+                       placeholder="Postal Code"
+                       required>
+            </div>
+
+            <h2>Academic Information</h2>
+
+            <div class="row">
+                <input type="text"
+                       name="faculty"
+                       placeholder="Faculty"
+                       required>
+
+                <input type="text"
+                       name="department"
+                       placeholder="Department"
+                       required>
+            </div>
+
+            <div class="row">
+                <input type="text"
+                       name="course"
+                       placeholder="Course"
+                       required>
+
+                <input type="text"
+                       name="admission_number"
+                       placeholder="Admission Number"
+                       required>
+            </div>
+
+            <div class="row">
+                <select name="year_of_study" required>
+                    <option value="">Year</option>
+                    <option>Year 1</option>
+                    <option>Year 2</option>
+                    <option>Year 3</option>
+                    <option>Year 4</option>
+                </select>
+
+                <select name="study_mode" required>
+                    <option value="">Study Mode</option>
+                    <option>Full Time</option>
+                    <option>Part Time</option>
+                    <option>Online</option>
+                </select>
+            </div>
+
+            <h2>Guardian Information</h2>
+
+            <div class="row">
+                <input type="text"
+                       name="guardian_name"
+                       placeholder="Guardian Name"
+                       required>
+
+                <input type="text"
+                       name="guardian_phone"
+                       placeholder="Guardian Phone"
+                       required>
+            </div>
+
+            <h2>Account Information</h2>
+
+            <div class="row">
+                <input type="email"
+                       name="personal_email"
+                       placeholder="Personal Email"
+                       required>
+
+                <input type="email"
+                       name="institution_email"
+                       placeholder="Institution Email"
+                       required>
+            </div>
+
+            <div class="row">
+                <input type="text"
+                       name="username"
+                       placeholder="Username"
+                       required>
+
+                <input type="password"
+                       name="password"
+                       placeholder="Password"
+                       required>
+            </div>
+
+            <label>Profile Photo</label>
+
+            <input type="file"
+                   name="profile_photo">
+
+            <button type="submit">
+                Create Account
+            </button>
+
+        </form>
+
+        <p class="bottom">
+            Already have an account?
+            <a href="{% url 'login' %}">
+                Login
+            </a>
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>

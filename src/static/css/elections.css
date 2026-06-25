@@ -1,0 +1,41 @@
+body{
+    margin:0;
+    background:#f4f6f9;
+    font-family:Arial;
+}
+
+.container{
+    width:90%;
+    margin:auto;
+    padding:30px;
+}
+
+h1{
+    text-align:center;
+    color:#0047ab;
+}
+
+.candidate{
+    background:white;
+    padding:25px;
+    margin-bottom:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,.1);
+}
+
+.candidate img{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    background:#0047ab;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}

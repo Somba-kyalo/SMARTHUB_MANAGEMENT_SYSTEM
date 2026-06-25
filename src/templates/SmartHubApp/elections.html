@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Student Elections</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/elections.css' %}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>{{ election.title }}</h1>
+
+    <p>{{ election.description }}</p>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {% for candidate in candidates %}
+
+        <div class="candidate">
+
+            {% if candidate.photo %}
+                <img src="{{ candidate.photo.url }}">
+            {% endif %}
+
+            <h2>
+                {{ candidate.student_name }}
+            </h2>
+
+            <h3>
+                {{ candidate.position }}
+            </h3>
+
+            <p>
+                {{ candidate.manifesto }}
+            </p>
+
+            <input
+                type="radio"
+                name="candidate"
+                value="{{ candidate.id }}"
+                required>
+
+            Vote
+
+        </div>
+
+        {% endfor %}
+
+        <button type="submit">
+            Submit Vote
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

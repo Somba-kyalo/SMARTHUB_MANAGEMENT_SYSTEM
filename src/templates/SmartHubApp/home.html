@@ -1,0 +1,279 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="SmartHub - Modern Technology and Innovation Learning Institution">
+    <meta name="keywords" content="Technology, Software Engineering, Cybersecurity, Networking, Business, Education">
+    <meta name="author" content="SmartHub">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SmartHub | Technology & Innovation Institute</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+
+<header class="header">
+    <div class="container">
+
+        <div class="logo">
+            <a href="{% url 'home' %}">
+                <h2>Smart<span>Hub</span></h2>
+            </a>
+        </div>
+
+        <nav>
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}" class="active">Home</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'departments' %}">Departments</a></li>
+                <li><a href="{% url 'courses' %}">Courses</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+            </ul>
+        </nav>
+
+        <div class="auth-buttons">
+            <a href="{% url 'login' %}" class="btn-outline">Login</a>
+            <a href="{% url 'signup' %}" class="btn-primary">Sign Up</a>
+        </div>
+
+    </div>
+</header>
+
+<section class="hero">
+
+    <div class="hero-content">
+        <span class="hero-badge">
+            Future Ready Education
+        </span>
+
+        <h1>
+            Shape Your Future Through
+            <span>Technology & Innovation</span>
+        </h1>
+
+        <p>
+            SmartHub provides industry-relevant education in software engineering,
+            cybersecurity, networking, data science, business, law, health sciences
+            and many other disciplines through a modern digital learning environment.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="{% url 'signup' %}" class="btn-primary">
+                Apply Now
+            </a>
+
+            <a href="{% url 'courses' %}" class="btn-outline">
+                Browse Courses
+            </a>
+        </div>
+    </div>
+
+    <div class="hero-image">
+        <img src="{% static 'images/hero-tech.png' %}" alt="Technology Education">
+    </div>
+
+</section>
+
+<section class="stats">
+
+    <div class="stat-card">
+        <h2>10,000+</h2>
+        <p>Students</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>150+</h2>
+        <p>Programs</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>250+</h2>
+        <p>Industry Partners</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>95%</h2>
+        <p>Employment Rate</p>
+    </div>
+
+</section>
+
+<section class="features">
+
+    <div class="section-title">
+        <h2>Why Choose SmartHub?</h2>
+        <p>Everything needed for academic success.</p>
+    </div>
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+            <i class="fas fa-user-graduate"></i>
+            <h3>Student Portal</h3>
+            <p>Access grades, units, assignments and announcements.</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-credit-card"></i>
+            <h3>Fee Management</h3>
+            <p>Secure fee payment and downloadable receipts.</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-book-open"></i>
+            <h3>Digital Learning</h3>
+            <p>Access notes, resources and online learning materials.</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Secure Platform</h3>
+            <p>Enterprise-grade security protecting student information.</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-laptop-code"></i>
+            <h3>Tech Training</h3>
+            <p>Hands-on software engineering and cybersecurity education.</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-network-wired"></i>
+            <h3>Networking Labs</h3>
+            <p>Industry-standard networking and infrastructure training.</p>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="news">
+
+    <div class="section-title">
+        <h2>Latest News & Announcements</h2>
+    </div>
+
+    <div class="news-grid">
+
+        <div class="news-card">
+            <h3>Admissions Open</h3>
+            <p>Applications are now open for the upcoming academic intake.</p>
+        </div>
+
+        <div class="news-card">
+            <h3>Cybersecurity Bootcamp</h3>
+            <p>Enroll in our intensive practical cybersecurity training program.</p>
+        </div>
+
+        <div class="news-card">
+            <h3>Industry Internship Program</h3>
+            <p>Students gain practical experience through partner organizations.</p>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="testimonials">
+
+    <div class="section-title">
+        <h2>Student Success Stories</h2>
+    </div>
+
+    <div class="testimonial-grid">
+
+        <div class="testimonial">
+            <p>
+                "SmartHub equipped me with practical software engineering skills
+                that helped me secure employment."
+            </p>
+            <h4>- Graduate</h4>
+        </div>
+
+        <div class="testimonial">
+            <p>
+                "The networking and cybersecurity labs gave me real-world
+                experience."
+            </p>
+            <h4>- Student</h4>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="cta">
+
+    <h2>Ready To Begin Your Journey?</h2>
+
+    <p>
+        Join thousands of students building successful careers through quality education.
+    </p>
+
+    <a href="{% url 'signup' %}" class="btn-primary">
+        Register Today
+    </a>
+
+</section>
+
+<footer class="footer">
+
+    <div class="footer-content">
+
+        <div>
+            <h3>SmartHub</h3>
+            <p>
+                Empowering learners through innovation, technology and excellence.
+            </p>
+        </div>
+
+        <div>
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'courses' %}">Courses</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h3>Connect</h3>
+
+            <div class="social-icons">
+
+                <a href="#">
+                    <i class="fab fa-facebook"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fab fa-twitter"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fab fa-instagram"></i>
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2026 SmartHub Technology Institute. All Rights Reserved.</p>
+    </div>
+
+</footer>
+
+</body>
+</html>

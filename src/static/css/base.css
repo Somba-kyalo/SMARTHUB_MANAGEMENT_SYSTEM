@@ -1,0 +1,241 @@
+/* --- COLORS & DNA VARIABLES --- */
+:root {
+    --core-color: #0d6efd;
+    --core-dark: #0a58ca;
+    --night: #1e293b;
+    --day: #f8fafc;
+    --wing-width: 260px;
+    --wing-closed-width: 70px;
+    --roof-height: 70px;
+    --ink-dark: #334155;
+    --ink-light: #64748b;
+    --pure-white: #ffffff;
+    --line-color: #e2e8f0;
+    --speed: 0.3s;
+}
+
+/* --- NATURAL RESET --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--day);
+    color: var(--ink-dark);
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* --- THE ROOF (Top Nav) --- */
+.roof {
+    height: var(--roof-height);
+    background-color: var(--pure-white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--line-color);
+}
+
+.roof-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.gatekeeper {
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: var(--ink-dark);
+}
+
+.identity h2 {
+    font-weight: 700;
+    color: var(--night);
+}
+
+.identity h2 span {
+    color: var(--core-color);
+}
+
+.roof-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.bell {
+    position: relative;
+    font-size: 1.2rem;
+    color: var(--ink-light);
+    cursor: pointer;
+}
+
+.alert-dot {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ef4444;
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 5px;
+    border-radius: 50%;
+}
+
+.person {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.face {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.nickname {
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* --- THE HOUSE LAYOUT --- */
+.house {
+    display: flex;
+    margin-top: var(--roof-height);
+    min-height: calc(100vh - var(--roof-height));
+}
+
+/* --- THE WING (Sidebar Nav) --- */
+.wing {
+    width: var(--wing-width);
+    background-color: var(--night);
+    color: #94a3b8;
+    position: fixed;
+    top: var(--roof-height);
+    bottom: 0;
+    left: 0;
+    overflow-y: auto;
+    transition: width var(--speed) ease;
+    z-index: 99;
+}
+
+.pathways {
+    padding: 1rem 0;
+}
+
+.pathways li a {
+    display: flex;
+    align-items: center;
+    padding: 0.85rem 1.5rem;
+    gap: 1rem;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.pathways li a i {
+    font-size: 1.1rem;
+    width: 20px;
+}
+
+.pathways li a:hover,
+.pathways li a.active {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--pure-white);
+    border-left: 4px solid var(--core-color);
+}
+
+/* Nested Sub-menus */
+.sub-pathways {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding-left: 2.5rem;
+}
+
+.sub-pathways li a {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+}
+
+.fold-icon {
+    margin-left: auto;
+    font-size: 0.8rem;
+}
+
+.exit {
+    margin-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* --- THE ROOM (Main Workspace) --- */
+.room {
+    flex: 1;
+    margin-left: var(--wing-width);
+    padding: 2rem;
+    width: calc(100% - var(--wing-width));
+    transition: margin-left var(--speed) ease, width var(--speed) ease;
+}
+
+.ground h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.ground p {
+    color: var(--ink-light);
+}
+
+/* --- COLLAPSED SIDEBAR STATE --- */
+.wing.hide-wing {
+    width: var(--wing-closed-width);
+}
+
+.wing.hide-wing .pathways span,
+.wing.hide-wing .fold-icon,
+.wing.hide-wing .sub-pathways {
+    display: none;
+}
+
+.wing.hide-wing + .room {
+    margin-left: var(--wing-closed-width);
+    width: calc(100% - var(--wing-closed-width));
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 768px) {
+    .wing {
+        left: -var(--wing-width);
+    }
+    .wing.hide-wing {
+        left: 0;
+        width: var(--wing-width);
+    }
+    .wing.hide-wing .pathways span {
+        display: inline;
+    }
+    .room {
+        margin-left: 0;
+        width: 100%;
+    }
+    .wing.hide-wing + .room {
+        margin-left: 0;
+        width: 100%;
+    }
+}

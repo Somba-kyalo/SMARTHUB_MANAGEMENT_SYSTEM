@@ -1,0 +1,217 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
+
+body{
+    background:#f8fafc;
+    color:#1e293b;
+}
+
+/* HEADER */
+.sky{
+    background:#fff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 7%;
+    box-shadow:0 2px 15px rgba(0,0,0,0.08);
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.identity h2{
+    font-size:2rem;
+    font-weight:800;
+}
+
+.identity span{
+    color:#2563eb;
+}
+
+.air-links{
+    display:flex;
+    list-style:none;
+    gap:25px;
+}
+
+.air-links a{
+    text-decoration:none;
+    color:#334155;
+    font-weight:600;
+}
+
+.air-links a:hover,
+.air-links a.active{
+    color:#2563eb;
+}
+
+.sky-right{
+    display:flex;
+    gap:12px;
+}
+
+.button-prime{
+    background:#2563eb;
+    color:#fff;
+    padding:12px 22px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.button-prime:hover{
+    background:#1d4ed8;
+}
+
+.button-ghost{
+    border:2px solid #2563eb;
+    color:#2563eb;
+    padding:10px 22px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.button-ghost:hover{
+    background:#2563eb;
+    color:#fff;
+}
+
+/* SECTION */
+.garden{
+    padding:80px 8%;
+}
+
+.garden-header{
+    text-align:center;
+    margin-bottom:50px;
+}
+
+.garden-header h1{
+    font-size:3rem;
+}
+
+.garden-header span{
+    color:#2563eb;
+}
+
+.garden-header p{
+    max-width:800px;
+    margin:auto;
+    color:#64748b;
+}
+
+/* LAYOUT */
+.garden-split{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+}
+
+/* LEFT CARDS */
+.leaf-column{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.leaf-card{
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.07);
+    display:flex;
+    gap:15px;
+    align-items:center;
+}
+
+.leaf-icon{
+    font-size:1.8rem;
+    color:#2563eb;
+    min-width:40px;
+}
+
+.leaf-info h3{
+    margin-bottom:5px;
+}
+
+.leaf-info p{
+    color:#64748b;
+    font-size:0.95rem;
+}
+
+/* FORM */
+.soil-form{
+    background:#fff;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.07);
+}
+
+.form-twin{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.seed-group{
+    margin-bottom:15px;
+}
+
+.seed-group label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:600;
+}
+
+.seed-input{
+    width:100%;
+    padding:12px;
+    border:1px solid #e2e8f0;
+    border-radius:8px;
+    outline:none;
+}
+
+.seed-input:focus{
+    border-color:#2563eb;
+}
+
+.full-width{
+    width:100%;
+}
+
+/* BUTTON */
+.button-prime.full-width{
+    width:100%;
+    border:none;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+/* FOOTER */
+.root{
+    background:#0f172a;
+    color:#fff;
+    text-align:center;
+    padding:25px;
+    margin-top:60px;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+    .garden-split{
+        grid-template-columns:1fr;
+    }
+
+    .form-twin{
+        grid-template-columns:1fr;
+    }
+
+    .garden-header h1{
+        font-size:2.2rem;
+    }
+}

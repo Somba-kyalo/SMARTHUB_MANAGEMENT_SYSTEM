@@ -1,0 +1,83 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>My Timetable</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/timetable.css' %}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>My Class Timetable</h1>
+
+    <h2>
+        {{ student.first_name }}
+        {{ student.last_name }}
+    </h2>
+
+    <table>
+
+        <tr>
+            <th>Day</th>
+            <th>Unit Code</th>
+            <th>Unit</th>
+            <th>Lecturer</th>
+            <th>Venue</th>
+            <th>Time</th>
+        </tr>
+
+        {% for lesson in timetable %}
+
+        <tr>
+
+            <td>
+                {{ lesson.day }}
+            </td>
+
+            <td>
+                {{ lesson.unit.unit_code }}
+            </td>
+
+            <td>
+                {{ lesson.unit.unit_name }}
+            </td>
+
+            <td>
+                {{ lesson.lecturer }}
+            </td>
+
+            <td>
+                {{ lesson.venue }}
+            </td>
+
+            <td>
+                {{ lesson.start_time }}
+                -
+                {{ lesson.end_time }}
+            </td>
+
+        </tr>
+
+        {% empty %}
+
+        <tr>
+            <td colspan="6">
+                No timetable available.
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+</body>
+</html>

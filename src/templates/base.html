@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartHub - TTU</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+</head>
+<body>
+
+    <header class="roof">
+        <div class="roof-left">
+            <div class="gatekeeper" id="toggleButton">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="identity">
+                <h2>Smart<span>Hub</span></h2>
+            </div>
+        </div>
+        <div class="roof-right">
+            <div class="bell">
+                <i class="fas fa-bell"></i>
+                <span class="alert-dot">3</span>
+            </div>
+            <div class="person">
+                <img src="https://via.placeholder.com/40" alt="User Avatar" class="face">
+                <span class="nickname">Student Portal</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="house">
+        
+        <nav class="wing" id="sidebarMenu">
+            <ul class="pathways">
+                <li><a href="{% url 'dashboard' %}" class="active"><i class="fas fa-th-large"></i> <span>Dashboard</span></a></li>
+                <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> <span>Profile</span></a></li>
+                
+                <li class="folder">
+                    <a href="#"><i class="fas fa-wallet"></i> <span>Payments</span> <i class="fas fa-chevron-down fold-icon"></i></a>
+                    <ul class="sub-pathways">
+                        <li><a href="{% url 'pay_fees' %}">Pay Fees</a></li>
+                        <li><a href="{% url 'fee_balance' %}">Fee Balance</a></li>
+                        <li><a href="{% url 'receipts' %}">Receipts</a></li>
+                        <li><a href="{% url 'invoice' %}">Invoice</a></li>
+                    </ul>
+                </li>
+
+                <li class="folder">
+                    <a href="#"><i class="fas fa-graduation-cap"></i> <span>Results</span> <i class="fas fa-chevron-down fold-icon"></i></a>
+                    <ul class="sub-pathways">
+                        <li><a href="{% url 'view_results' %}">View Results</a></li>
+                        <li><a href="{% url 'transcript' %}">Transcript</a></li>
+                        <li><a href="{% url 'special_exams' %}">Special Exams</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="{% url 'unit_registration' %}"><i class="fas fa-book-open"></i> <span>Unit Registration</span></a></li>
+                <li><a href="{% url 'elections' %}"><i class="fas fa-vote-yea"></i> <span>Elections</span></a></li>
+                <li><a href="{% url 'lecturer_evaluation' %}"><i class="fas fa-comment-alt"></i> <span>Lecturer Evaluation</span></a></li>
+                <li><a href="{% url 'announcements' %}"><i class="fas fa-bullhorn"></i> <span>Announcements</span></a></li>
+                <li><a href="{% url 'medical_services' %}"><i class="fas fa-clinic-medical"></i> <span>Medical Services</span></a></li>
+                <li><a href="{% url 'timetable' %}"><i class="fas fa-calendar-alt"></i> <span>Timetable</span></a></li>
+                <li><a href="{% url 'academic_calendar' %}"><i class="fas fa-calendar-check"></i> <span>Academic Calendar</span></a></li>
+                <li><a href="{% url 'help_support' %}"><i class="fas fa-question-circle"></i> <span>Help & Support</span></a></li>
+                <li class="exit"><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
+            </ul>
+        </nav>
+
+        <main class="room">
+            {% block content %}
+            <div class="ground">
+                <h1>Welcome to SmartHub Base Template</h1>
+                <p>Natural layout structure is up and active. Ready for your instructions.</p>
+            </div>
+            {% endblock content %}
+        </main>
+    </div>
+
+    <script>
+        const toggleButton = document.getElementById('toggleButton');
+        const sidebarMenu = document.getElementById('sidebarMenu');
+        
+        toggleButton.addEventListener('click', () => {
+            sidebarMenu.classList.toggle('hide-wing');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses Offered | SmartHub Tech Institute</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/courses.css' %}">
+</head>
+<body>
+
+<header class="sky">
+    <div class="sky-left">
+        <div class="identity">
+            <h2>Smart<span>Hub</span></h2>
+        </div>
+    </div>
+
+    <nav class="sky-center">
+        <ul class="air-links">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'departments' %}">Departments</a></li>
+            <li><a href="{% url 'courses' %}" class="active">Courses</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="sky-right">
+        <a href="{% url 'login' %}" class="button-ghost">Login</a>
+        <a href="{% url 'signup' %}" class="button-prime">Sign Up</a>
+    </div>
+</header>
+
+
+<section class="pasture">
+    <div class="pasture-header">
+        <h1>Technology <span>Programs</span></h1>
+        <p>Industry-aligned academic pathways designed to build practical, job-ready technical expertise across computing and engineering domains.</p>
+    </div>
+
+    <div class="crops-grid">
+
+        <div class="crop-card">
+            <span class="crop-tag tech">Computing</span>
+            <h2>Software Engineering</h2>
+            <p>Build scalable applications using modern frameworks, software architecture principles, and system design methodologies.</p>
+
+            <div class="crop-meta">
+                <span><i class="far fa-clock"></i> 4 Years</span>
+                <span><i class="far fa-file-alt"></i> 120 Credits</span>
+            </div>
+
+            <a href="{% url 'signup' %}" class="button-prime small">Apply Now</a>
+        </div>
+
+        <div class="crop-card">
+            <span class="crop-tag sec">Cybersecurity</span>
+            <h2>Network Security & Ethical Hacking</h2>
+            <p>Learn penetration testing, cryptography, threat detection, and secure infrastructure design.</p>
+
+            <div class="crop-meta">
+                <span><i class="far fa-clock"></i> 4 Years</span>
+                <span><i class="far fa-file-alt"></i> 124 Credits</span>
+            </div>
+
+            <a href="{% url 'signup' %}" class="button-prime small">Apply Now</a>
+        </div>
+
+        <div class="crop-card">
+            <span class="crop-tag data">Data Science</span>
+            <h2>Data Science & Machine Learning</h2>
+            <p>Work with data pipelines, AI models, statistical analysis, and predictive systems.</p>
+
+            <div class="crop-meta">
+                <span><i class="far fa-clock"></i> 4 Years</span>
+                <span><i class="far fa-file-alt"></i> 118 Credits</span>
+            </div>
+
+            <a href="{% url 'signup' %}" class="button-prime small">Apply Now</a>
+        </div>
+
+        <div class="crop-card">
+            <span class="crop-tag tech">Networking</span>
+            <h2>Computer Networking</h2>
+            <p>Design, configure, and manage enterprise networks including routing, switching, and wireless systems.</p>
+
+            <div class="crop-meta">
+                <span><i class="far fa-clock"></i> 3 Years</span>
+                <span><i class="far fa-file-alt"></i> 110 Credits</span>
+            </div>
+
+            <a href="{% url 'signup' %}" class="button-prime small">Apply Now</a>
+        </div>
+
+        <div class="crop-card">
+            <span class="crop-tag tech">Cloud</span>
+            <h2>Cloud Computing & DevOps</h2>
+            <p>Deploy and manage scalable systems using AWS, Azure, Docker, Kubernetes and CI/CD pipelines.</p>
+
+            <div class="crop-meta">
+                <span><i class="far fa-clock"></i> 4 Years</span>
+                <span><i class="far fa-file-alt"></i> 122 Credits</span>
+            </div>
+
+            <a href="{% url 'signup' %}" class="button-prime small">Apply Now</a>
+        </div>
+
+        <div class="crop-card">
+            <span class="crop-tag tech">Engineering</span>
+            <h2>Computer Engineering</h2>
+            <p>Study hardware systems, embedded systems, digital electronics and computer architecture.</p>
+
+            <div class="crop-meta">
+                <span><i class="far fa-clock"></i> 4 Years</span>
+                <span><i class="far fa-file-alt"></i> 125 Credits</span>
+            </div>
+
+            <a href="{% url 'signup' %}" class="button-prime small">Apply Now</a>
+        </div>
+
+    </div>
+</section>
+
+
+<footer class="root">
+    <p>&copy; 2026 SmartHub Tech Institute. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | SmartHub Tech Institute</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+</head>
+<body>
+
+<header class="sky">
+    <div class="sky-left">
+        <div class="identity">
+            <h2>Smart<span>Hub</span></h2>
+        </div>
+    </div>
+
+    <nav class="sky-center">
+        <ul class="air-links">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'about' %}" class="active">About</a></li>
+            <li><a href="{% url 'departments' %}">Departments</a></li>
+            <li><a href="{% url 'courses' %}">Courses</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="sky-right">
+        <a href="{% url 'login' %}" class="button-ghost">Login</a>
+        <a href="{% url 'signup' %}" class="button-prime">Sign Up</a>
+    </div>
+</header>
+
+
+<section class="canopy">
+    <div class="canopy-content">
+        <h1>About <span>SmartHub Tech Institute</span></h1>
+        <p>
+            A modern technology learning ecosystem designed to train developers, engineers,
+            cybersecurity specialists, and innovators through practical, industry-aligned education.
+        </p>
+    </div>
+</section>
+
+
+<section class="orchard">
+
+    <div class="orchard-split">
+
+        <div class="fruit-text">
+            <h2>Who We Are</h2>
+            <p>
+                SmartHub Tech Institute is a digital-first academic institution focused on bridging
+                the gap between theoretical education and real-world technology demands.
+            </p>
+            <p>
+                We specialize in computing, cybersecurity, networking, artificial intelligence,
+                cloud computing, software engineering, and emerging digital technologies.
+            </p>
+
+            <p>
+                Our learning model emphasizes hands-on labs, continuous assessment, and project-based
+                learning rather than memorization.
+            </p>
+        </div>
+
+        <div class="fruit-stats">
+
+            <div class="stat-stone">
+                <h3>10+</h3>
+                <p>Tech Departments</p>
+            </div>
+
+            <div class="stat-stone">
+                <h3>50+</h3>
+                <p>Courses Offered</p>
+            </div>
+
+            <div class="stat-stone">
+                <h3>24/7</h3>
+                <p>Learning Access</p>
+            </div>
+
+            <div class="stat-stone">
+                <h3>Industry</h3>
+                <p>Aligned Curriculum</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="pillars">
+
+    <div class="pillars-header">
+        <h2>Our Mission, Vision & Values</h2>
+        <p>The foundation that defines how we train, think, and build future technologists.</p>
+    </div>
+
+    <div class="pillars-grid">
+
+        <div class="core-stone">
+            <div class="stone-icon"><i class="fas fa-bullseye"></i></div>
+            <h3>Mission</h3>
+            <p>
+                To deliver practical technology education that produces industry-ready graduates
+                capable of solving real-world problems using modern tools and systems.
+            </p>
+        </div>
+
+        <div class="core-stone">
+            <div class="stone-icon"><i class="fas fa-eye"></i></div>
+            <h3>Vision</h3>
+            <p>
+                To become a leading digital institution in Africa producing world-class engineers,
+                developers, and cybersecurity experts.
+            </p>
+        </div>
+
+        <div class="core-stone">
+            <div class="stone-icon"><i class="fas fa-cogs"></i></div>
+            <h3>Approach</h3>
+            <p>
+                Learning through building: students work on systems, applications, networks,
+                and security environments from day one.
+            </p>
+        </div>
+
+        <div class="core-stone">
+            <div class="stone-icon"><i class="fas fa-shield-alt"></i></div>
+            <h3>Integrity</h3>
+            <p>
+                Strong academic ethics, secure systems, and transparent student performance tracking
+                across all departments.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="timeline">
+
+    <div class="timeline-header">
+        <h2>How We Train Students</h2>
+        <p>A structured journey from beginner to industry-ready professional.</p>
+    </div>
+
+    <div class="timeline-grid">
+
+        <div class="timeline-step">
+            <h3>1. Foundation Phase</h3>
+            <p>Programming basics, mathematics for computing, and introduction to systems.</p>
+        </div>
+
+        <div class="timeline-step">
+            <h3>2. Core Skills Phase</h3>
+            <p>Specialization in chosen field: software, cybersecurity, networking or data science.</p>
+        </div>
+
+        <div class="timeline-step">
+            <h3>3. Advanced Projects</h3>
+            <p>Real-world simulations, group projects, and system development tasks.</p>
+        </div>
+
+        <div class="timeline-step">
+            <h3>4. Industry Readiness</h3>
+            <p>Internships, certifications, and portfolio building for employment.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer class="root">
+    <p>&copy; 2026 SmartHub Tech Institute. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
