@@ -1,0 +1,278 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+        SmartHub Admin
+        {% endblock %}
+    </title>
+
+    <link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
+
+    {% block extra_css %}
+
+    {% endblock %}
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- ================= Sidebar ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <img src="{% static 'images/logo.png' %}" alt="Logo">
+
+            <h2>SmartHub</h2>
+
+            <span>Administration</span>
+
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="{% url 'admin_dashboard' %}">
+                    <i class="fa-solid fa-house"></i>
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'students' %}">
+                    <i class="fa-solid fa-user-graduate"></i>
+                    Students
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'lecturers' %}">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    Lecturers
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'units' %}">
+                    <i class="fa-solid fa-book"></i>
+                    Units
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'results' %}">
+                    <i class="fa-solid fa-square-poll-horizontal"></i>
+                    Results
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'fees' %}">
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                    Fees
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'timetable' %}">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    Timetable
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'venues' %}">
+                    <i class="fa-solid fa-building"></i>
+                    Venues
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'announcements' %}">
+                    <i class="fa-solid fa-bullhorn"></i>
+                    Announcements
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'elections' %}">
+                    <i class="fa-solid fa-check-to-slot"></i>
+                    Elections
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'candidates' %}">
+                    <i class="fa-solid fa-users"></i>
+                    Candidates
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'evaluations' %}">
+                    <i class="fa-solid fa-star"></i>
+                    Evaluations
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-gear"></i>
+                    Settings
+                </a>
+            </li>
+
+            <li class="logout">
+                <a href="{% url 'admin_logout' %}">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- ================= Main Content ================= -->
+
+    <main class="main-content">
+
+        <!-- ================= Topbar ================= -->
+
+        <header class="topbar">
+
+            <div class="page-title">
+
+                <h1>
+
+                    {% block page_title %}
+
+                    Dashboard
+
+                    {% endblock %}
+
+                </h1>
+
+                <p>
+
+                    Welcome back,
+                    {{ request.user.username }}
+
+                </p>
+
+            </div>
+
+            <div class="top-right">
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="text"
+                        placeholder="Search...">
+
+                </div>
+
+                <button class="notification">
+
+                    <i class="fa-solid fa-bell"></i>
+
+                </button>
+
+                <div class="admin-profile">
+
+                    <img src="{% static 'images/admin.png' %}" alt="Admin">
+
+                    <div>
+
+                        <h4>
+
+                            {{ request.user.username }}
+
+                        </h4>
+
+                        <small>
+
+                            Super Administrator
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- ================= Messages ================= -->
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="alert {{ message.tags }}">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+        <!-- ================= Page Content ================= -->
+
+        {% block content %}
+
+
+                {% endblock %}
+
+    </main>
+
+</div>
+
+{% block extra_js %}
+
+<script>
+
+    // Auto-hide Django messages
+
+    const alerts = document.querySelectorAll(".alert");
+
+    alerts.forEach(alert => {
+
+        setTimeout(() => {
+
+            alert.style.opacity = "0";
+
+            alert.style.transform = "translateY(-10px)";
+
+            setTimeout(() => {
+
+                alert.remove();
+
+            }, 500);
+
+        }, 3000);
+
+    });
+
+</script>
+
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,254 @@
+/* ===========================
+   SMART HUB ADMIN LOGIN
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+    padding:30px;
+}
+
+/* Container */
+
+.container{
+    width:100%;
+    max-width:1100px;
+}
+
+/* Login Card */
+
+.login-card{
+    display:flex;
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 25px 60px rgba(0,0,0,.25);
+}
+
+/* ===========================
+   LEFT SIDE
+=========================== */
+
+.left{
+    width:45%;
+    background:linear-gradient(135deg,#1d4ed8,#2563eb,#3b82f6);
+    color:#fff;
+    padding:70px 50px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.left img{
+    width:120px;
+    height:120px;
+    object-fit:contain;
+    margin-bottom:25px;
+}
+
+.left h1{
+    font-size:38px;
+    margin-bottom:10px;
+    font-weight:700;
+}
+
+.left p{
+    font-size:22px;
+    margin-bottom:20px;
+    font-weight:600;
+}
+
+.left span{
+    line-height:1.8;
+    opacity:.95;
+    font-size:16px;
+}
+
+/* ===========================
+   RIGHT SIDE
+=========================== */
+
+.right{
+    width:55%;
+    padding:60px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.right h2{
+    font-size:34px;
+    color:#1e293b;
+    margin-bottom:10px;
+}
+
+.right p{
+    color:#64748b;
+    margin-bottom:35px;
+}
+
+/* Error Message */
+
+.error{
+    background:#fee2e2;
+    color:#b91c1c;
+    padding:14px;
+    border-radius:8px;
+    margin-bottom:20px;
+    border-left:5px solid #dc2626;
+}
+
+/* Form */
+
+.input-box{
+    margin-bottom:25px;
+}
+
+.input-box label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+    color:#334155;
+}
+
+.input-field{
+    display:flex;
+    align-items:center;
+    border:1px solid #dbe4ef;
+    border-radius:10px;
+    overflow:hidden;
+    transition:.3s;
+}
+
+.input-field:focus-within{
+    border-color:#2563eb;
+    box-shadow:0 0 0 4px rgba(37,99,235,.15);
+}
+
+.input-field i{
+    width:55px;
+    text-align:center;
+    color:#2563eb;
+    font-size:18px;
+}
+
+.input-field input{
+    width:100%;
+    border:none;
+    outline:none;
+    padding:16px;
+    font-size:15px;
+}
+
+/* Button */
+
+button{
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:10px;
+    background:#2563eb;
+    color:#fff;
+    font-size:17px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    background:#1d4ed8;
+    transform:translateY(-2px);
+}
+
+button i{
+    margin-right:8px;
+}
+
+/* Footer */
+
+small{
+    display:block;
+    margin-top:30px;
+    text-align:center;
+    color:#64748b;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media(max-width:900px){
+
+    .login-card{
+        flex-direction:column;
+    }
+
+    .left,
+    .right{
+        width:100%;
+    }
+
+    .left{
+        padding:50px 30px;
+    }
+
+    .right{
+        padding:40px 30px;
+    }
+
+    .left h1{
+        font-size:30px;
+    }
+
+    .right h2{
+        font-size:28px;
+    }
+}
+
+@media(max-width:500px){
+
+    body{
+        padding:15px;
+    }
+
+    .right{
+        padding:30px 20px;
+    }
+
+    .left{
+        padding:40px 20px;
+    }
+
+    .left img{
+        width:90px;
+        height:90px;
+    }
+
+    .left h1{
+        font-size:26px;
+    }
+
+    .left p{
+        font-size:18px;
+    }
+
+    .right h2{
+        font-size:24px;
+    }
+
+    button{
+        font-size:16px;
+    }
+}

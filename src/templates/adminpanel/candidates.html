@@ -1,0 +1,353 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block title %}
+Candidates
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/candidates.css' %}">
+{% endblock %}
+
+{% block page_title %}
+Election Candidates
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h2>Candidate Management</h2>
+
+        <p>Create, update and manage election candidates.</p>
+
+    </div>
+
+</div>
+
+<!-- ================= Messages ================= -->
+
+{% if messages %}
+
+<div class="messages">
+
+    {% for message in messages %}
+
+    <div class="alert {{ message.tags }}">
+
+        {{ message }}
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+<!-- ================= Add Candidate ================= -->
+
+<div class="card">
+
+    <div class="card-header">
+
+        <h3>
+
+            <i class="fa-solid fa-user-plus"></i>
+
+            Add Candidate
+
+        </h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <form action="{% url 'add_candidate' %}"
+              method="POST"
+              enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>
+
+                        Election
+
+                    </label>
+
+                    <select
+                        name="election"
+                        required>
+
+                        <option value="">
+
+                            Select Election
+
+                        </option>
+
+                        {% for election in elections %}
+
+                        <option value="{{ election.id }}">
+
+                            {{ election.title }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Position
+
+                    </label>
+
+                    <input
+                        type="text"
+                        name="position"
+                        placeholder="Example: Chairperson"
+                        required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Student Name
+
+                    </label>
+
+                    <input
+                        type="text"
+                        name="student_name"
+                        placeholder="Candidate Name"
+                        required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Candidate Photo
+
+                    </label>
+
+                    <input
+                        type="file"
+                        name="photo">
+
+                </div>
+
+                <div class="form-group full-width">
+
+                    <label>
+
+                        Manifesto
+
+                    </label>
+
+                    <textarea
+                        name="manifesto"
+                        rows="6"
+                        placeholder="Candidate manifesto..."
+                        required></textarea>
+
+                </div>
+
+            </div>
+
+            <button
+                type="submit"
+                class="btn-primary">
+
+                <i class="fa-solid fa-plus"></i>
+
+                Add Candidate
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- ================= Candidate List ================= -->
+
+<div class="table-card">
+
+    <div class="table-header">
+
+        <h3>
+
+            <i class="fa-solid fa-users"></i>
+
+            All Candidates
+
+        </h3>
+
+        <form method="GET">
+
+            <div class="search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search candidate...">
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="table-responsive">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Photo</th>
+
+                    <th>Name</th>
+
+                    <th>Election</th>
+
+                    <th>Position</th>
+
+                    <th>Votes</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for candidate in candidates %}
+
+                                <tr>
+
+                    <td>
+
+                        {% if candidate.photo %}
+
+                        <img src="{{ candidate.photo.url }}"
+                             alt="{{ candidate.student_name }}"
+                             class="candidate-photo">
+
+                        {% else %}
+
+                        <div class="no-photo">
+
+                            <i class="fa-solid fa-user"></i>
+
+                        </div>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <strong>
+
+                            {{ candidate.student_name }}
+
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        {{ candidate.election.title }}
+
+                    </td>
+
+                    <td>
+
+                        {{ candidate.position }}
+
+                    </td>
+
+                    <td>
+
+                        <span class="vote-badge">
+
+                            {{ candidate.votes }}
+
+                        </span>
+
+                    </td>
+
+                    <td class="actions">
+
+                        <a href="{% url 'edit_candidate' candidate.id %}"
+                           class="btn-edit">
+
+                            <i class="fa-solid fa-pen-to-square"></i>
+
+                            Edit
+
+                        </a>
+
+                        <a href="{% url 'delete_candidate' candidate.id %}"
+                           class="btn-delete"
+                           onclick="return confirm('Delete this candidate?');">
+
+                            <i class="fa-solid fa-trash"></i>
+
+                            Delete
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="6" class="empty-table">
+
+                        <i class="fa-solid fa-users"></i>
+
+                        <br><br>
+
+                        No candidates available.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

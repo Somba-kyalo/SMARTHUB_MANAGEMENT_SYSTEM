@@ -1,0 +1,330 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block title %}
+Election Management
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/elections.css' %}">
+{% endblock %}
+
+{% block page_title %}
+Election Management
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h2>Election Management</h2>
+        <p>Create and manage student elections.</p>
+    </div>
+
+</div>
+
+<!-- ================= Messages ================= -->
+
+{% if messages %}
+
+<div class="messages">
+
+    {% for message in messages %}
+
+    <div class="alert {{ message.tags }}">
+        {{ message }}
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+<!-- ================= Add/Edit Election ================= -->
+
+<div class="card">
+
+    <div class="card-header">
+
+        {% if election %}
+
+        <h3>
+            <i class="fa-solid fa-pen"></i>
+            Edit Election
+        </h3>
+
+        {% else %}
+
+        <h3>
+            <i class="fa-solid fa-plus"></i>
+            Create Election
+        </h3>
+
+        {% endif %}
+
+    </div>
+
+    <div class="card-body">
+
+        {% if election %}
+        <form method="POST" action="{% url 'edit_election' election.id %}">
+        {% else %}
+        <form method="POST" action="{% url 'add_election' %}">
+        {% endif %}
+
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                <div class="form-group full-width">
+
+                    <label>Election Title</label>
+
+                    <input
+                        type="text"
+                        name="title"
+                        value="{{ election.title|default:'' }}"
+                        placeholder="Election title"
+                        required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Start Date</label>
+
+                    <input
+                        type="date"
+                        name="start_date"
+                        value="{{ election.start_date|date:'Y-m-d' }}"
+                        required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>End Date</label>
+
+                    <input
+                        type="date"
+                        name="end_date"
+                        value="{{ election.end_date|date:'Y-m-d' }}"
+                        required>
+
+                </div>
+
+                <div class="form-group full-width">
+
+                    <label>Description</label>
+
+                    <textarea
+                        name="description"
+                        rows="5"
+                        placeholder="Election description...">{{ election.description|default:'' }}</textarea>
+
+                </div>
+
+                <div class="checkbox full-width">
+
+                    <label>
+
+                        <input
+                            type="checkbox"
+                            name="active"
+
+                            {% if election.active %}
+                            checked
+                            {% endif %}>
+
+                        Make this election active
+
+                    </label>
+
+                </div>
+
+            </div>
+
+            <button
+                type="submit"
+                class="btn-primary">
+
+                <i class="fa-solid fa-floppy-disk"></i>
+
+                {% if election %}
+                Update Election
+                {% else %}
+                Create Election
+                {% endif %}
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- ================= Elections Table ================= -->
+
+<div class="table-card">
+
+    <div class="table-header">
+
+        <h3>
+
+            <i class="fa-solid fa-check-to-slot"></i>
+
+            Elections
+
+        </h3>
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                placeholder="Search election...">
+
+        </div>
+
+    </div>
+
+    <div class="table-responsive">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Title</th>
+
+                    <th>Start Date</th>
+
+                    <th>End Date</th>
+
+                    <th>Status</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for election in elections %}
+
+                                <tr>
+
+                    <td>
+
+                        <strong>
+
+                            {{ election.title }}
+
+                        </strong>
+
+                        {% if election.description %}
+
+                        <br>
+
+                        <small>
+
+                            {{ election.description|truncatewords:15 }}
+
+                        </small>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {{ election.start_date|date:"M d, Y" }}
+
+                    </td>
+
+                    <td>
+
+                        {{ election.end_date|date:"M d, Y" }}
+
+                    </td>
+
+                    <td>
+
+                        {% if election.active %}
+
+                        <span class="badge badge-active">
+
+                            Active
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="badge badge-inactive">
+
+                            Inactive
+
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td class="actions">
+
+                        <a href="{% url 'edit_election' election.id %}"
+                           class="btn-edit">
+
+                            <i class="fa-solid fa-pen-to-square"></i>
+
+                            Edit
+
+                        </a>
+
+                        <a href="{% url 'delete_election' election.id %}"
+                           class="btn-delete"
+                           onclick="return confirm('Are you sure you want to delete this election?');">
+
+                            <i class="fa-solid fa-trash"></i>
+
+                            Delete
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="5" class="empty-table">
+
+                        <i class="fa-solid fa-check-to-slot"></i>
+
+                        <br><br>
+
+                        No elections have been created.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

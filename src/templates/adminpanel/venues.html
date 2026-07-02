@@ -1,0 +1,244 @@
+{% extends "adminpanel/base.html" %}
+{% load static %}
+
+{% block title %}Venues Management{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/venues.css' %}">
+{% endblock %}
+
+{% block page_title %}Venues{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h2>Examination & Lecture Venues</h2>
+
+        <p>Manage buildings and rooms used for academic activities.</p>
+
+    </div>
+
+</div>
+
+{% if messages %}
+
+<div class="messages">
+
+    {% for message in messages %}
+
+    <div class="alert {{ message.tags }}">
+
+        {{ message }}
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+<div class="card">
+
+    <div class="card-header">
+
+        <h3>
+
+            <i class="fa-solid fa-building"></i>
+
+            {% if venue %}
+
+            Edit Venue
+
+            {% else %}
+
+            Add New Venue
+
+            {% endif %}
+
+        </h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <form method="POST" action="{% if venue %}{% url 'edit_venue' venue.id %}{% else %}{% url 'add_venue' %}{% endif %}">
+
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>Venue Name</label>
+
+                    <input type="text" name="name" value="{% if venue %}{{ venue.name }}{% endif %}" required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Building</label>
+
+                    <input type="text" name="building" value="{% if venue %}{{ venue.building }}{% endif %}" required>
+
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn-primary">
+
+                <i class="fa-solid fa-floppy-disk"></i>
+
+                {% if venue %}
+
+                Update Venue
+
+                {% else %}
+
+                Save Venue
+
+                {% endif %}
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div class="table-card">
+
+    <div class="table-header">
+
+        <h3>
+
+            <i class="fa-solid fa-table"></i>
+
+            All Venues
+
+        </h3>
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input type="text" id="searchInput" placeholder="Search venues...">
+
+        </div>
+
+    </div>
+
+    <div class="table-responsive">
+
+        <table id="venuesTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>Venue Name</th>
+
+                    <th>Building</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for venue in venues %}
+                                <tr>
+
+                    <td>
+
+                        <strong>
+
+                            {{ venue.name }}
+
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        {{ venue.building }}
+
+                    </td>
+
+                    <td class="actions">
+
+                        <a href="{% url 'edit_venue' venue.id %}" class="btn-edit">
+
+                            <i class="fa-solid fa-pen-to-square"></i>
+
+                            Edit
+
+                        </a>
+
+                        <a href="{% url 'delete_venue' venue.id %}" class="btn-delete"
+                           onclick="return confirm('Are you sure you want to delete this venue?');">
+
+                            <i class="fa-solid fa-trash"></i>
+
+                            Delete
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="3" class="empty-table">
+
+                        <i class="fa-solid fa-building"></i>
+
+                        <br><br>
+
+                        No venues available.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("searchInput").addEventListener("keyup", function(){
+
+    let filter = this.value.toLowerCase();
+
+    let rows = document.querySelectorAll("#venuesTable tbody tr");
+
+    rows.forEach(function(row){
+
+        row.style.display = row.textContent.toLowerCase().includes(filter)
+            ? ""
+            : "none";
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

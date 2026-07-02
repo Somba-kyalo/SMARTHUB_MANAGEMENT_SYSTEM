@@ -1,0 +1,414 @@
+{% extends "adminpanel/base.html" %}
+{% load static %}
+
+{% block title %}
+Results Management
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/results.css' %}">
+{% endblock %}
+
+{% block page_title %}
+Results
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h2>Student Results</h2>
+
+        <p>Add, update and manage students' examination results.</p>
+
+    </div>
+
+</div>
+
+<!-- ================= Messages ================= -->
+
+{% if messages %}
+
+<div class="messages">
+
+    {% for message in messages %}
+
+    <div class="alert {{ message.tags }}">
+
+        {{ message }}
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+<!-- ================= Result Form ================= -->
+
+<div class="card">
+
+    <div class="card-header">
+
+        <h3>
+
+            <i class="fa-solid fa-square-poll-horizontal"></i>
+
+            {% if result %}
+
+            Edit Result
+
+            {% else %}
+
+            Add New Result
+
+            {% endif %}
+
+        </h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <form method="POST"
+              action="{% if result %}{% url 'edit_result' result.id %}{% else %}{% url 'add_result' %}{% endif %}">
+
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>Student</label>
+
+                    <select name="student" required>
+
+                        <option value="">Select Student</option>
+
+                        {% for student in students %}
+
+                        <option value="{{ student.id }}"
+                        {% if result and result.student.id == student.id %}selected{% endif %}>
+
+                            {{ student.first_name }}
+                            {{ student.last_name }}
+                            ({{ student.admission_number }})
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Unit</label>
+
+                    <select name="unit" required>
+
+                        <option value="">Select Unit</option>
+
+                        {% for unit in units %}
+
+                        <option value="{{ unit.id }}"
+                        {% if result and result.unit.id == unit.id %}selected{% endif %}>
+
+                            {{ unit.unit_code }} -
+                            {{ unit.unit_name }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>CAT Marks</label>
+
+                    <input
+                        type="number"
+                        step="0.01"
+                        name="cat"
+                        value="{% if result %}{{ result.cat }}{% endif %}"
+                        required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Exam Marks</label>
+
+                    <input
+                        type="number"
+                        step="0.01"
+                        name="exam"
+                        value="{% if result %}{{ result.exam }}{% endif %}"
+                        required>
+
+                </div>
+
+                <div class="form-group full-width">
+
+                    <label>Semester</label>
+
+                    <input
+                        type="text"
+                        name="semester"
+                        value="{% if result %}{{ result.semester }}{% endif %}"
+                        placeholder="Example: Semester 1"
+                        required>
+
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn-primary">
+
+                <i class="fa-solid fa-floppy-disk"></i>
+
+                {% if result %}
+
+                Update Result
+
+                {% else %}
+
+                Save Result
+
+                {% endif %}
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- ================= Results Table ================= -->
+
+<div class="table-card">
+
+    <div class="table-header">
+
+        <h3>
+
+            <i class="fa-solid fa-table"></i>
+
+            All Results
+
+        </h3>
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search student or unit...">
+
+        </div>
+
+    </div>
+
+    <div class="table-responsive">
+
+        <table id="resultsTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>Student</th>
+
+                    <th>Unit</th>
+
+                    <th>CAT</th>
+
+                    <th>Exam</th>
+
+                    <th>Total</th>
+
+                    <th>Grade</th>
+
+                    <th>Remark</th>
+
+                    <th>Semester</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for result in results %}
+
+                                <tr>
+
+                    <td>
+
+                        <strong>
+
+                            {{ result.student.first_name }}
+                            {{ result.student.last_name }}
+
+                        </strong>
+
+                        <br>
+
+                        <small>
+
+                            {{ result.student.admission_number }}
+
+                        </small>
+
+                    </td>
+
+                    <td>
+
+                        <strong>
+
+                            {{ result.unit.unit_code }}
+
+                        </strong>
+
+                        <br>
+
+                        <small>
+
+                            {{ result.unit.unit_name }}
+
+                        </small>
+
+                    </td>
+
+                    <td>
+
+                        {{ result.cat }}
+
+                    </td>
+
+                    <td>
+
+                        {{ result.exam }}
+
+                    </td>
+
+                    <td>
+
+                        <strong>
+
+                            {{ result.total }}
+
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        <span class="grade-badge grade-{{ result.grade|lower }}">
+
+                            {{ result.grade }}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        {{ result.remark }}
+
+                    </td>
+
+                    <td>
+
+                        {{ result.semester }}
+
+                    </td>
+
+                    <td class="actions">
+
+                        <a href="{% url 'edit_result' result.id %}"
+                           class="btn-edit">
+
+                            <i class="fa-solid fa-pen-to-square"></i>
+
+                            Edit
+
+                        </a>
+
+                        <a href="{% url 'delete_result' result.id %}"
+                           class="btn-delete"
+                           onclick="return confirm('Are you sure you want to delete this result?');">
+
+                            <i class="fa-solid fa-trash"></i>
+
+                            Delete
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="9" class="empty-table">
+
+                        <i class="fa-solid fa-square-poll-horizontal"></i>
+
+                        <br><br>
+
+                        No examination results have been added yet.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- ================= Search ================= -->
+
+<script>
+
+document.getElementById("searchInput").addEventListener("keyup", function(){
+
+    let filter = this.value.toLowerCase();
+
+    let rows = document.querySelectorAll("#resultsTable tbody tr");
+
+    rows.forEach(function(row){
+
+        let text = row.textContent.toLowerCase();
+
+        row.style.display = text.includes(filter)
+            ? ""
+            : "none";
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

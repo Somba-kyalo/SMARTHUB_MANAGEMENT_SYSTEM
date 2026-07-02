@@ -22,21 +22,13 @@
         <div class="input-group">
             <label>Total Tuition Fee</label>
 
-            <input
-                type="number"
-                id="totalFee"
-                value="{{ fee.total_fee }}"
-                readonly>
+            <input type="number" id="totalFee" value="{{ fee.total_fee }}">
         </div>
 
         <div class="input-group">
             <label>Amount Paid</label>
 
-            <input
-                type="number"
-                id="amountPaid"
-                value="{{ fee.amount_paid }}"
-                readonly>
+            <input type="number" id="amountPaid" value="{{ fee.amount_paid }}" >
         </div>
 
         <button onclick="calculateFee()">

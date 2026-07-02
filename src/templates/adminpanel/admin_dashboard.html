@@ -1,0 +1,412 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartHub | Admin Dashboard</title>
+
+    <link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+
+<div class="dashboard">
+
+    <!-- ================= Sidebar ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <img src="{% static 'images/logo.png' %}" alt="Logo">
+
+            <h2>SmartHub</h2>
+
+            <span>Administration</span>
+
+        </div>
+
+        <ul class="menu">
+
+            <li class="active">
+                <a href="#">
+                    <i class="fa-solid fa-house"></i>
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'students' %}">
+                    <i class="fa-solid fa-user-graduate"></i>
+                    Students
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'lecturer_evaluation' %}">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    Lecturers
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'units' %}">
+                    <i class="fa-solid fa-book"></i>
+                    Units
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'results' %}">
+                    <i class="fa-solid fa-square-poll-horizontal"></i>
+                    Results
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'fees' %}">
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                    Fees
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'timetable' %}">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    Timetable
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'venues' %}">
+                    <i class="fa-solid fa-building"></i>
+                    Venues
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'announcements' %}">
+                    <i class="fa-solid fa-bullhorn"></i>
+                    Announcements
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'elections' %}">
+                    <i class="fa-solid fa-check-to-slot"></i>
+                    Elections
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'candidates' %}">
+                    <i class="fa-solid fa-users"></i>
+                    Candidates
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'lecturer_evaluation' %}">
+                    <i class="fa-solid fa-star"></i>
+                    Evaluations
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-gear"></i>
+                    Settings
+                </a>
+            </li>
+
+            <li class="logout">
+                <a href="{% url 'logout' %}">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- ================= Main Content ================= -->
+
+    <main class="main-content">
+
+        <!-- Top Navigation -->
+
+        <header class="topbar">
+
+            <div class="page-title">
+
+                <h1>Dashboard</h1>
+
+                <p>Welcome back, Administrator.</p>
+
+            </div>
+
+            <div class="top-right">
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input type="text"
+                           placeholder="Search students, units...">
+
+                </div>
+
+                <button class="notification">
+
+                    <i class="fa-solid fa-bell"></i>
+
+                </button>
+
+                <div class="admin-profile">
+
+                    <img src="{% static 'images/admin.png' %}" alt="Admin">
+
+                    <div>
+
+                        <h4>Administrator</h4>
+
+                        <small>System Admin</small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- Dashboard Content -->
+
+        <section class="dashboard-content">
+
+
+<!-- ================= Statistics ================= -->
+
+<div class="stats-grid">
+
+    <div class="card">
+        <i class="fa-solid fa-user-graduate"></i>
+        <div>
+            <h3>{{ total_students }}</h3>
+            <p>Total Students</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <i class="fa-solid fa-chalkboard-user"></i>
+        <div>
+            <h3>{{ total_lecturers }}</h3>
+            <p>Lecturers</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <i class="fa-solid fa-book-open"></i>
+        <div>
+            <h3>{{ total_units }}</h3>
+            <p>Units</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <i class="fa-solid fa-money-bill-wave"></i>
+        <div>
+            <h3>{{ total_fees }}</h3>
+            <p>Fee Records</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <i class="fa-solid fa-bullhorn"></i>
+        <div>
+            <h3>{{ total_announcements }}</h3>
+            <p>Announcements</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <i class="fa-solid fa-check-to-slot"></i>
+        <div>
+            <h3>{{ total_elections }}</h3>
+            <p>Active Elections</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= Quick Actions ================= -->
+
+<div class="section">
+
+    <div class="section-header">
+        <h2>Quick Actions</h2>
+    </div>
+
+    <div class="action-grid">
+
+        <a href="#" class="action-btn">
+            <i class="fa-solid fa-user-plus"></i>
+            <span>Add Student</span>
+        </a>
+
+        <a href="#" class="action-btn">
+            <i class="fa-solid fa-user-tie"></i>
+            <span>Add Lecturer</span>
+        </a>
+
+        <a href="#" class="action-btn">
+            <i class="fa-solid fa-book-medical"></i>
+            <span>Add Unit</span>
+        </a>
+
+        <a href="#" class="action-btn">
+            <i class="fa-solid fa-square-poll-horizontal"></i>
+            <span>Upload Results</span>
+        </a>
+
+        <a href="#" class="action-btn">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span>Create Timetable</span>
+        </a>
+
+        <a href="#" class="action-btn">
+            <i class="fa-solid fa-money-check-dollar"></i>
+            <span>Update Fees</span>
+        </a>
+
+        <a href="#" class="action-btn">
+            <i class="fa-solid fa-bullhorn"></i>
+            <span>Announcement</span>
+        </a>
+
+        <a href="#" class="action-btn">
+            <i class="fa-solid fa-check-to-slot"></i>
+            <span>Create Election</span>
+        </a>
+
+    </div>
+
+</div>
+
+<!-- ================= Dashboard Columns ================= -->
+
+<div class="dashboard-row">
+
+    <!-- Recent Activities -->
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h2>Recent Activities</h2>
+
+            <a href="#">View All</a>
+
+        </div>
+
+        <div class="activity-list">
+
+            <div class="activity">
+                <i class="fa-solid fa-user-plus"></i>
+                <div>
+                    <h4>New Student Registered</h4>
+                    <small>Today</small>
+                </div>
+            </div>
+
+            <div class="activity">
+                <i class="fa-solid fa-book"></i>
+                <div>
+                    <h4>Results Uploaded</h4>
+                    <small>2 Hours Ago</small>
+                </div>
+            </div>
+
+            <div class="activity">
+                <i class="fa-solid fa-money-bill"></i>
+                <div>
+                    <h4>Fee Payment Updated</h4>
+                    <small>Yesterday</small>
+                </div>
+            </div>
+
+            <div class="activity">
+                <i class="fa-solid fa-bullhorn"></i>
+                <div>
+                    <h4>Announcement Published</h4>
+                    <small>Yesterday</small>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Latest Announcements -->
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h2>Latest Announcements</h2>
+
+            <a href="{% url 'announcements' %}">Manage</a>
+
+        </div>
+
+        <div class="announcement-list">
+
+            {% for announcement in announcements %}
+
+            <div class="announcement">
+
+                <h4>{{ announcement.title }}</h4>
+
+                <p>{{ announcement.message|truncatewords:20 }}</p>
+
+                <small>
+
+                    {{ announcement.created_at }}
+
+                </small>
+
+            </div>
+
+            {% empty %}
+
+            <div class="announcement">
+
+                <h4>No announcements available.</h4>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

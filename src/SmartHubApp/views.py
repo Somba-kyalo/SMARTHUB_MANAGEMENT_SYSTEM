@@ -363,3 +363,39 @@ def payment(request):
             'fee': fee,
         }
     )
+
+
+def lecturer_evaluation(request):
+
+    if 'student_id' not in request.session:
+        return redirect('login')
+
+    student = Student.objects.get(
+        id=request.session['student_id']
+    )
+
+    if request.method == 'POST':
+
+        LecturerEvaluation.objects.create(
+            student=student,
+            lecturer_name=request.POST['lecturer_name'],
+            unit_code=request.POST['unit_code'],
+            teaching_rating=request.POST['teaching_rating'],
+            communication_rating=request.POST['communication_rating'],
+            punctuality_rating=request.POST['punctuality_rating'],
+            remarks=request.POST['remarks']
+        )
+
+        return render(
+            request,
+            'SmartHubApp/lecturer_evaluation.html',
+            {
+                'success':
+                'Evaluation submitted successfully.'
+            }
+        )
+
+    return render(
+        request,
+        'SmartHubApp/lecturer_evaluation.html'
+    )

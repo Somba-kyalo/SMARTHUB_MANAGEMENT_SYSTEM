@@ -1,0 +1,252 @@
+{% extends "adminpanel/base.html" %}
+{% load static %}
+
+{% block title %}Lecturers Management{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/lecturers.css' %}">
+{% endblock %}
+
+{% block page_title %}Lecturers{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h2>Lecturers</h2>
+
+        <p>Manage academic staff and their details.</p>
+
+    </div>
+
+</div>
+
+{% if messages %}
+
+<div class="messages">
+
+    {% for message in messages %}
+
+    <div class="alert {{ message.tags }}">
+
+        {{ message }}
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+<div class="card">
+
+    <div class="card-header">
+
+        <h3>
+
+            <i class="fa-solid fa-user-tie"></i>
+
+            {% if lecturer %}
+
+            Edit Lecturer
+
+            {% else %}
+
+            Add New Lecturer
+
+            {% endif %}
+
+        </h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <form method="POST" action="{% if lecturer %}{% url 'edit_lecturer' lecturer.id %}{% else %}{% url 'add_lecturer' %}{% endif %}">
+
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>First Name</label>
+
+                    <input type="text" name="first_name" value="{% if lecturer %}{{ lecturer.first_name }}{% endif %}" required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Last Name</label>
+
+                    <input type="text" name="last_name" value="{% if lecturer %}{{ lecturer.last_name }}{% endif %}" required>
+
+                </div>
+
+                <div class="form-group full-width">
+
+                    <label>Email</label>
+
+                    <input type="email" name="email" value="{% if lecturer %}{{ lecturer.email }}{% endif %}" required>
+
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn-primary">
+
+                <i class="fa-solid fa-floppy-disk"></i>
+
+                {% if lecturer %}
+
+                Update Lecturer
+
+                {% else %}
+
+                Save Lecturer
+
+                {% endif %}
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div class="table-card">
+
+    <div class="table-header">
+
+        <h3>
+
+            <i class="fa-solid fa-table"></i>
+
+            All Lecturers
+
+        </h3>
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input type="text" id="searchInput" placeholder="Search lecturers...">
+
+        </div>
+
+    </div>
+
+    <div class="table-responsive">
+
+        <table id="lecturersTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>Name</th>
+
+                    <th>Email</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for lecturer in lecturers %}
+                                <tr>
+
+                    <td>
+
+                        <strong>
+
+                            {{ lecturer.first_name }} {{ lecturer.last_name }}
+
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        {{ lecturer.email }}
+
+                    </td>
+
+                    <td class="actions">
+
+                        <a href="{% url 'edit_lecturer' lecturer.id %}" class="btn-edit">
+
+                            <i class="fa-solid fa-pen-to-square"></i>
+
+                            Edit
+
+                        </a>
+
+                        <a href="{% url 'delete_lecturer' lecturer.id %}" class="btn-delete"
+                           onclick="return confirm('Are you sure you want to delete this lecturer?');">
+
+                            <i class="fa-solid fa-trash"></i>
+
+                            Delete
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="3" class="empty-table">
+
+                        <i class="fa-solid fa-user-tie"></i>
+
+                        <br><br>
+
+                        No lecturers available.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("searchInput").addEventListener("keyup", function(){
+
+    let filter = this.value.toLowerCase();
+
+    let rows = document.querySelectorAll("#lecturersTable tbody tr");
+
+    rows.forEach(function(row){
+
+        row.style.display = row.textContent.toLowerCase().includes(filter)
+            ? ""
+            : "none";
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

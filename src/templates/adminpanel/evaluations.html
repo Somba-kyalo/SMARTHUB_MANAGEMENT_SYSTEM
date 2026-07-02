@@ -1,0 +1,345 @@
+{% extends "adminpanel/base.html" %}
+{% load static %}
+
+{% block title %}Lecturer Evaluation{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/lecturer_evaluation.css' %}">
+{% endblock %}
+
+{% block page_title %}Lecturer Evaluation{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h2>Lecturer Evaluation</h2>
+
+        <p>Students can evaluate teaching performance and provide feedback.</p>
+
+    </div>
+
+</div>
+
+{% if messages %}
+
+<div class="messages">
+
+    {% for message in messages %}
+
+    <div class="alert {{ message.tags }}">
+
+        {{ message }}
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+<div class="card">
+
+    <div class="card-header">
+
+        <h3>
+
+            <i class="fa-solid fa-star"></i>
+
+            {% if evaluation %}
+
+            Edit Evaluation
+
+            {% else %}
+
+            Submit Evaluation
+
+            {% endif %}
+
+        </h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <form method="POST" action="{% if evaluation %}{% url 'edit_evaluation' evaluation.id %}{% else %}{% url 'add_evaluation' %}{% endif %}">
+
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>Student Name</label>
+
+                    <select name="student" required>
+
+                        <option value="">Select Student</option>
+
+                        {% for student in students %}
+
+                        <option value="{{ student.id }}"
+                            {% if evaluation and evaluation.student.id == student.id %}selected{% endif %}>
+
+                            {{ student.first_name }} {{ student.last_name }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Lecturer Name</label>
+
+                    <input type="text" name="lecturer_name" value="{% if evaluation %}{{ evaluation.lecturer_name }}{% endif %}" required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Unit Code</label>
+
+                    <input type="text" name="unit_code" value="{% if evaluation %}{{ evaluation.unit_code }}{% endif %}" required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Teaching Rating</label>
+
+                    <select name="teaching_rating" required>
+
+                        <option value="">Select Rating</option>
+
+                        <option value="Poor" {% if evaluation and evaluation.teaching_rating == "Poor" %}selected{% endif %}>Poor</option>
+
+                        <option value="Fair" {% if evaluation and evaluation.teaching_rating == "Fair" %}selected{% endif %}>Fair</option>
+
+                        <option value="Good" {% if evaluation and evaluation.teaching_rating == "Good" %}selected{% endif %}>Good</option>
+
+                        <option value="Excellent" {% if evaluation and evaluation.teaching_rating == "Excellent" %}selected{% endif %}>Excellent</option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Communication Rating</label>
+
+                    <select name="communication_rating" required>
+
+                        <option value="">Select Rating</option>
+
+                        <option value="Poor" {% if evaluation and evaluation.communication_rating == "Poor" %}selected{% endif %}>Poor</option>
+
+                        <option value="Fair" {% if evaluation and evaluation.communication_rating == "Fair" %}selected{% endif %}>Fair</option>
+
+                        <option value="Good" {% if evaluation and evaluation.communication_rating == "Good" %}selected{% endif %}>Good</option>
+
+                        <option value="Excellent" {% if evaluation and evaluation.communication_rating == "Excellent" %}selected{% endif %}>Excellent</option>
+
+                    </select>
+
+                                    </div>
+
+                <div class="form-group">
+
+                    <label>Punctuality Rating</label>
+
+                    <select name="punctuality_rating" required>
+
+                        <option value="">Select Rating</option>
+
+                        <option value="Poor" {% if evaluation and evaluation.punctuality_rating == "Poor" %}selected{% endif %}>Poor</option>
+
+                        <option value="Fair" {% if evaluation and evaluation.punctuality_rating == "Fair" %}selected{% endif %}>Fair</option>
+
+                        <option value="Good" {% if evaluation and evaluation.punctuality_rating == "Good" %}selected{% endif %}>Good</option>
+
+                        <option value="Excellent" {% if evaluation and evaluation.punctuality_rating == "Excellent" %}selected{% endif %}>Excellent</option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group full-width">
+
+                    <label>Remarks</label>
+
+                    <textarea name="remarks" rows="4" required>{% if evaluation %}{{ evaluation.remarks }}{% endif %}</textarea>
+
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn-primary">
+
+                <i class="fa-solid fa-floppy-disk"></i>
+
+                {% if evaluation %}
+
+                Update Evaluation
+
+                {% else %}
+
+                Submit Evaluation
+
+                {% endif %}
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div class="table-card">
+
+    <div class="table-header">
+
+        <h3>
+
+            <i class="fa-solid fa-star"></i>
+
+            Submitted Evaluations
+
+        </h3>
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input type="text" id="searchInput" placeholder="Search evaluations...">
+
+        </div>
+
+    </div>
+
+    <div class="table-responsive">
+
+        <table id="evaluationTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>Student</th>
+
+                    <th>Lecturer</th>
+
+                    <th>Unit</th>
+
+                    <th>Ratings</th>
+
+                    <th>Remarks</th>
+
+                    <th>Date</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for evaluation in evaluations %}
+
+                <tr>
+
+                    <td>
+
+                        {{ evaluation.student.first_name }} {{ evaluation.student.last_name }}
+
+                    </td>
+
+                    <td>
+
+                        {{ evaluation.lecturer_name }}
+
+                    </td>
+
+                    <td>
+
+                        {{ evaluation.unit_code }}
+
+                    </td>
+
+                    <td>
+
+                        Teaching: {{ evaluation.teaching_rating }}<br>
+
+                        Communication: {{ evaluation.communication_rating }}<br>
+
+                        Punctuality: {{ evaluation.punctuality_rating }}
+
+                    </td>
+
+                    <td>
+
+                        {{ evaluation.remarks|truncatewords:10 }}
+
+                    </td>
+
+                    <td>
+
+                        {{ evaluation.submitted_at|date:"Y-m-d H:i" }}
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="6" class="empty-table">
+
+                        <i class="fa-solid fa-star"></i>
+
+                        <br><br>
+
+                        No evaluations submitted yet.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("searchInput").addEventListener("keyup", function(){
+
+    let filter = this.value.toLowerCase();
+
+    let rows = document.querySelectorAll("#evaluationTable tbody tr");
+
+    rows.forEach(function(row){
+
+        row.style.display = row.textContent.toLowerCase().includes(filter)
+            ? ""
+            : "none";
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

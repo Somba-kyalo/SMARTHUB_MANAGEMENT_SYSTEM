@@ -321,3 +321,30 @@ class Fee(models.Model):
 
     def __str__(self):
         return str(self.student)
+    
+
+class LecturerEvaluation(models.Model):
+
+    student = models.ForeignKey(
+        Student,
+        on_delete=models.CASCADE
+    )
+
+    lecturer_name = models.CharField(max_length=200)
+
+    unit_code = models.CharField(max_length=20)
+
+    teaching_rating = models.CharField(max_length=20)
+
+    communication_rating = models.CharField(max_length=20)
+
+    punctuality_rating = models.CharField(max_length=20)
+
+    remarks = models.TextField()
+
+    submitted_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return f"{self.student} - {self.lecturer_name}"

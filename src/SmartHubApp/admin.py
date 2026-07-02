@@ -1,5 +1,8 @@
 from django.contrib import admin
 from .models import Fee
+from .models import LecturerEvaluation
+
+#admin.site.register(Fee)
 from .models import (
     Student,
     Unit,
@@ -169,4 +172,26 @@ class FeeAdmin(admin.ModelAdmin):
         'student__first_name',
         'student__last_name',
         'student__admission_number',
+    )
+
+
+@admin.register(LecturerEvaluation)
+class LecturerEvaluationAdmin(admin.ModelAdmin):
+
+    list_display = (
+        'student',
+        'lecturer_name',
+        'unit_code',
+        'teaching_rating',
+        'submitted_at'
+    )
+
+    search_fields = (
+        'lecturer_name',
+        'unit_code'
+    )
+
+    list_filter = (
+        'teaching_rating',
+        'submitted_at'
     )

@@ -1,9 +1,101 @@
-{% extends 'SmartHubApp/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecturer Evaluation</title>
 
-{% block content %}
+    <link rel="stylesheet"
+          href="{% static 'css/lecturer_evaluation.css' %}">
+</head>
+<body>
 
-<h1>Lecturer Evaluation</h1>
+<div class="container">
 
-<p>This page is under development.</p>
+    <div class="header">
+        <h1>Lecturer Evaluation Form</h1>
+        <p>
+            Help improve teaching quality by evaluating your lecturer.
+        </p>
+    </div>
 
-{% endblock %}
+    {% if success %}
+    <div class="success-message">
+        {{ success }}
+    </div>
+    {% endif %}
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Lecturer Name</label>
+            <input type="text"
+                   name="lecturer_name"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label>Unit Code</label>
+            <input type="text"
+                   name="unit_code"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label>Teaching Effectiveness</label>
+
+            <select name="teaching_rating" required>
+                <option value="">Select Rating</option>
+                <option>Excellent</option>
+                <option>Good</option>
+                <option>Average</option>
+                <option>Poor</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Communication Skills</label>
+
+            <select name="communication_rating" required>
+                <option value="">Select Rating</option>
+                <option>Excellent</option>
+                <option>Good</option>
+                <option>Average</option>
+                <option>Poor</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Punctuality</label>
+
+            <select name="punctuality_rating" required>
+                <option value="">Select Rating</option>
+                <option>Excellent</option>
+                <option>Good</option>
+                <option>Average</option>
+                <option>Poor</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>General Remarks</label>
+
+            <textarea name="remarks"
+                      rows="6"
+                      placeholder="Write your comments here..."
+                      required></textarea>
+        </div>
+
+        <button type="submit">
+            Submit Evaluation
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>
