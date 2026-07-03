@@ -9,7 +9,7 @@ urlpatterns = [
 
     path("", include("SmartHubApp.urls")),
 
-    path("adminpanel/", include("adminpanel.urls")),
+   
 
 ]
 
