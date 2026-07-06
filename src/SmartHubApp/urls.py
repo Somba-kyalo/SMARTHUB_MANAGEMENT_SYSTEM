@@ -47,6 +47,7 @@ urlpatterns = [
     path('lecturer_evaluation/', lecturer_evaluation, name='lecturer_evaluation'),
     path('timetable/', timetable, name='timetable'),
     path('academic_calendar/', academic_calendar, name='academic_calendar'),
+    path('success/', signup, name='success'),
 
 ]
 

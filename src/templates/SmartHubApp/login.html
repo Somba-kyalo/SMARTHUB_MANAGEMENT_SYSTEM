@@ -1,63 +1,53 @@
 {% load static %}
+
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
 
-    <title>Student Login</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet"
-          href="{% static 'css/login.css' %}">
+<title>SmartHub Login</title>
+
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+
 </head>
 
 <body>
 
 <div class="login-container">
 
-    <div class="login-card">
+<div class="login-card">
 
-        <h1>SmartHub Portal</h1>
+<h1>SmartHub</h1>
 
-        <p>Student Login</p>
+<p>Student Login</p>
 
-        {% if error %}
-            <div class="error">
-                {{ error }}
-            </div>
-        {% endif %}
+{% if error %}
 
-        <form method="POST">
+<div class="error">{{ error }}</div>
+{% endif %}
 
-            {% csrf_token %}
+<form method="POST">
 
-            <input type="email"
-                   name="institution_email"
-                   placeholder="Institution Email"
-                   required>
+{% csrf_token %}
 
-            <input type="password"
-                   name="password"
-                   placeholder="Password"
-                   required>
+<label>Registration Number or Institution Email</label> <input type="text" name="login" placeholder="Registration Number or Institution Email" required>
 
-            <button type="submit">
-                Login
-            </button>
+<label>Password</label> <input type="password" name="password" placeholder="Password" required>
 
-        </form>
+<button type="submit">Login</button>
 
-        <p>
-            Don't have an account?
-            <a href="{% url 'signup' %}">
-                Register
-            </a>
-        </p>
+</form>
 
-    </div>
+<p>Don't have an account? <a href="{% url 'signup' %}">Create Account</a></p>
+
+</div>
 
 </div>
 
 </body>
+
 </html>

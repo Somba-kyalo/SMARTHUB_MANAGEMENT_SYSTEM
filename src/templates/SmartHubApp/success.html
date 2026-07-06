@@ -1,0 +1,53 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registration Successful</title>
+
+<link rel="stylesheet" href="{% static 'css/success.css' %}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>Registration Successful</h1>
+
+<p>Your SmartHub account has been created successfully.</p>
+
+<div class="details">
+
+<p><strong>Registration Number:</strong> {{ student.registration_number }}</p>
+
+<p><strong>Institution Email:</strong> {{ student.institution_email }}</p>
+
+<p><strong>Username:</strong> {{ student.username }}</p>
+
+</div>
+
+<div class="notice">
+
+<strong>Important:</strong>
+
+Please note these details. You will use your Registration Number or Institution Email together with your password to log in.
+
+</div>
+
+<a href="{% url 'login' %}" class="btn">Proceed to Login</a>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

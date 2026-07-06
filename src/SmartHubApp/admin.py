@@ -17,54 +17,64 @@ from .models import (
     Vote,
 )
 
+from django.contrib import admin
+from .models import Student
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = (
-        'first_name',
-        'last_name',
-        'institution_email',
-        'course',
-        'admission_number',
-        'year_of_study',
-    )
 
-    search_fields = (
-        'first_name',
-        'last_name',
-        'institution_email',
-        'admission_number',
-    )
+    list_display = ("registration_number", "first_name", "last_name", "institution_email", "course", "year")
 
-    list_filter = (
-        'course',
-        'year_of_study',
-        'department',
-    )
+    search_fields = ("registration_number", "first_name", "last_name", "institution_email", "username")
+
+    list_filter = ("course", "year", "department")
 
 
 @admin.register(Unit)
 class UnitAdmin(admin.ModelAdmin):
     list_display = (
-        'unit_code',
-        'unit_name',
-        'course',
-        'year',
-        'semester',
+        "unit_code",
+        "unit_name",
+        "course",
+        "year",
+        "semester",
+        "credit_hours",
     )
 
     search_fields = (
-        'unit_code',
-        'unit_name',
+        "unit_code",
+        "unit_name",
+        "course",
+    )
+
+    list_filter = (
+        "course",
+        "year",
+        "semester",
     )
 
 
 @admin.register(UnitRegistration)
 class UnitRegistrationAdmin(admin.ModelAdmin):
     list_display = (
-        'student',
-        'unit',
-        'registered_at',
+        "student",
+        "unit",
+        "registered_at",
+    )
+
+    search_fields = (
+        "student__registration_number",
+        "student__first_name",
+        "student__last_name",
+        "unit__unit_code",
+        "unit__unit_name",
+    )
+
+    list_filter = (
+        "unit__course",
+        "unit__year",
+        "unit__semester",
+        "registered_at",
     )
 
 
@@ -157,23 +167,31 @@ class VoteAdmin(admin.ModelAdmin):
 class FeeAdmin(admin.ModelAdmin):
 
     list_display = (
-        'student',
-        'total_fee',
-        'amount_paid',
-        'balance',
-        'semester',
-    )
-
-    list_filter = (
-        'semester',
+        "student",
+        "total_fee",
+        "amount_paid",
+        "balance",
+        "completion",
+        "updated_at",
     )
 
     search_fields = (
-        'student__first_name',
-        'student__last_name',
-        'student__admission_number',
+        "student__registration_number",
+        "student__first_name",
+        "student__last_name",
     )
 
+    readonly_fields = (
+        "student",
+        "total_fee",
+        "balance",
+        "completion",
+        "updated_at",
+    )
+
+    # this ensures admin cannot create duplicate fee records
+    def has_add_permission(self, request):
+        return False   
 
 @admin.register(LecturerEvaluation)
 class LecturerEvaluationAdmin(admin.ModelAdmin):

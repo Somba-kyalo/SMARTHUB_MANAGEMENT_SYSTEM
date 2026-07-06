@@ -2,58 +2,43 @@ from django.db import models
 from django.contrib.auth.hashers import make_password
 
 
+
+from django.db import models
+from django.contrib.auth.hashers import make_password
+
 class Student(models.Model):
+
     first_name = models.CharField(max_length=100)
     middle_name = models.CharField(max_length=100, blank=True)
     last_name = models.CharField(max_length=100)
-
     dob = models.DateField()
     gender = models.CharField(max_length=20)
-
     nationality = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=20)
-
-    address = models.TextField()
+    phone = models.CharField(max_length=20)
     county = models.CharField(max_length=100)
+    address = models.TextField()
     postal_code = models.CharField(max_length=20)
-
     faculty = models.CharField(max_length=100)
     department = models.CharField(max_length=100)
     course = models.CharField(max_length=100)
-
-    admission_number = models.CharField(max_length=50)
-
-    year_of_study = models.CharField(max_length=20)
-    study_mode = models.CharField(max_length=20)
-
+    year = models.CharField(max_length=20, default="Year 1")
+    study_mode = models.CharField(max_length=30)
     guardian_name = models.CharField(max_length=100)
     guardian_phone = models.CharField(max_length=20)
-
     personal_email = models.EmailField()
-
+    registration_number = models.CharField(max_length=30, unique=True)
     institution_email = models.EmailField(unique=True)
-
     username = models.CharField(max_length=100, unique=True)
-
-    profile_photo = models.ImageField(
-        upload_to='students/',
-        blank=True,
-        null=True
-    )
-
     password = models.CharField(max_length=255)
-
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         if not self.password.startswith("pbkdf2_"):
             self.password = make_password(self.password)
-
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
-    
+        return f"{self.registration_number} - {self.first_name} {self.last_name}"
 
 
 class Unit(models.Model):
@@ -69,24 +54,20 @@ class Unit(models.Model):
 
 
 class UnitRegistration(models.Model):
-    student = models.ForeignKey(
-        Student,
-        on_delete=models.CASCADE
-    )
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name="unit_registrations")
+    unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="registered_students")
+    registered_at = models.DateTimeField(auto_now_add=True)
 
-    unit = models.ForeignKey(
-        Unit,
-        on_delete=models.CASCADE
-    )
-
-    registered_at = models.DateTimeField(
-        auto_now_add=True
-    )
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["student", "unit"],
+                name="unique_student_unit"
+            )
+        ]
 
     def __str__(self):
-        return f"{self.student} - {self.unit}"
-    
-
+        return f"{self.student.registration_number} - {self.unit.unit_code}"
 
 
 class Result(models.Model):
@@ -279,49 +260,31 @@ class Timetable(models.Model):
     
 
 class Fee(models.Model):
+    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+    total_fee = models.DecimalField(max_digits=10, decimal_places=2)
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    updated_at = models.DateTimeField(auto_now=True)
 
-    student = models.ForeignKey(
-        Student,
-        on_delete=models.CASCADE
-    )
+    @property
+    def balance(self):
+        total = self.total_fee or 0
+        paid = self.amount_paid or 0
+        return total - paid
 
-    total_fee = models.DecimalField(
-        max_digits=10,
-        decimal_places=2
-    )
+    @property
+    def completion(self):
+        total = self.total_fee or 0
+        paid = self.amount_paid or 0
 
-    amount_paid = models.DecimalField(
-        max_digits=10,
-        decimal_places=2
-    )
+        if total == 0:
+            return 0
 
-    balance = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        blank=True,
-        null=True
-    )
-
-    semester = models.CharField(
-        max_length=20
-    )
-
-    updated_at = models.DateTimeField(
-        auto_now=True
-    )
-
-    def save(self, *args, **kwargs):
-
-        self.balance = (
-            self.total_fee -
-            self.amount_paid
-        )
-
-        super().save(*args, **kwargs)
+        return round((paid / total) * 100, 1)
 
     def __str__(self):
-        return str(self.student)
-    
+        return f"{self.student.registration_number}"
+
+        
 
 class LecturerEvaluation(models.Model):
 
@@ -348,3 +311,5 @@ class LecturerEvaluation(models.Model):
 
     def __str__(self):
         return f"{self.student} - {self.lecturer_name}"
+
+

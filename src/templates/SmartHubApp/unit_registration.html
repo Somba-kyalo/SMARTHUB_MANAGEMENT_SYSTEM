@@ -1,74 +1,162 @@
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Unit Registration</title>
 
-    <link rel="stylesheet"
-          href="{% static 'css/unit_registration.css' %}">
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Unit Registration</title>
+
+<link rel="stylesheet" href="{% static 'css/unit_registration.css' %}">
+
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1>Unit Registration</h1>
+<div class="card">
 
-    <p>
-        Student:
-        {{ student.first_name }}
-        {{ student.last_name }}
-    </p>
+<h1>Unit Registration</h1>
 
-    <form method="POST">
+<div class="student-info">
 
-        {% csrf_token %}
+<h2>Student Information</h2>
 
-        <table>
+<p><strong>Registration Number:</strong> {{ student.registration_number }}</p>
 
-            <tr>
-                <th>Select</th>
-                <th>Code</th>
-                <th>Unit Name</th>
-                <th>Course</th>
-                <th>Year</th>
-                <th>Semester</th>
-                <th>Credits</th>
-            </tr>
+<p><strong>Name:</strong> {{ student.first_name }} {{ student.last_name }}</p>
 
-            {% for unit in units %}
-            <tr>
+<p><strong>Course:</strong> {{ student.course }}</p>
 
-                <td>
-                    <input type="checkbox"
-                           name="units"
-                           value="{{ unit.id }}">
-                </td>
+<p><strong>Year:</strong> {{ student.year }}</p>
 
-                <td>{{ unit.unit_code }}</td>
+</div>
 
-                <td>{{ unit.unit_name }}</td>
+<div class="status">
 
-                <td>{{ unit.course }}</td>
+<h2>Registration Status</h2>
 
-                <td>{{ unit.year }}</td>
+{% if registered_units %}
 
-                <td>{{ unit.semester }}</td>
+<p class="registered">🟢 Registered</p>
 
-                <td>{{ unit.credit_hours }}</td>
+{% else %}
 
-            </tr>
-            {% endfor %}
+<p class="not-registered">🔴 Not Registered</p>
 
-        </table>
+{% endif %}
 
-        <button type="submit">
-            Register Units
-        </button>
+</div>
 
-    </form>
+<form method="POST">
+
+{% csrf_token %}
+
+{% if registered_units %}
+
+<h2>Registered Units</h2>
+
+<table>
+
+<tr>
+<th>Unit Code</th>
+<th>Unit Name</th>
+<th>Course</th>
+<th>Year</th>
+<th>Semester</th>
+<th>Credits</th>
+</tr>
+
+{% for registration in registered_units %}
+
+<tr>
+
+<td>{{ registration.unit.unit_code }}</td>
+<td>{{ registration.unit.unit_name }}</td>
+<td>{{ registration.unit.course }}</td>
+<td>{{ registration.unit.year }}</td>
+<td>{{ registration.unit.semester }}</td>
+<td>{{ registration.unit.credit_hours }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<p class="success">✓ You have already completed your unit registration.</p>
+
+{% else %}
+
+<h2>Available Units</h2>
+
+<table>
+
+<tr>
+<th>Select</th>
+<th>Unit Code</th>
+<th>Unit Name</th>
+<th>Course</th>
+<th>Year</th>
+<th>Semester</th>
+<th>Credits</th>
+</tr>
+
+{% for unit in units %}
+
+<tr>
+
+<td><input type="checkbox" name="units" value="{{ unit.id }}"></td>
+
+<td>{{ unit.unit_code }}</td>
+<td>{{ unit.unit_name }}</td>
+<td>{{ unit.course }}</td>
+<td>{{ unit.year }}</td>
+<td>{{ unit.semester }}</td>
+<td>{{ unit.credit_hours }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<button type="submit">Register Units</button>
+
+{% endif %}
+
+
+{% if registered_units %}
+
+<div class="summary">
+
+<h2>Registration Summary</h2>
+
+<p><strong>Total Units:</strong> {{ registered_units|length }}</p>
+
+<p><strong>Registration Date:</strong> {{ registered_units.0.registered_at|date:"d M Y" }}</p>
+
+</div>
+
+{% endif %}
+
+</form>
+
+<div class="buttons">
+
+<a href="{% url 'dashboard' %}" class="btn">Back to Dashboard</a>
+
+</div>
+
+</div>
 
 </div>
 
 </body>
+
 </html>

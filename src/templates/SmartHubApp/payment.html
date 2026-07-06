@@ -1,200 +1,246 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fee Payment Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet"
-          href="{% static 'css/payment.css' %}">
+<title>Fee Payment</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="{% static 'css/payment.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
 <div class="container">
 
-    <h1>Student Fee Dashboard</h1>
+<div class="card">
 
-    <div class="form-card">
+<h1>Student Fee Dashboard</h1>
 
-        <div class="input-group">
-            <label>Total Tuition Fee</label>
+<!-- STUDENT INFO -->
+<div class="student-info">
 
-            <input type="number" id="totalFee" value="{{ fee.total_fee }}">
-        </div>
+<h2>Student Information</h2>
 
-        <div class="input-group">
-            <label>Amount Paid</label>
-
-            <input type="number" id="amountPaid" value="{{ fee.amount_paid }}" >
-        </div>
-
-        <button onclick="calculateFee()">
-            Calculate
-        </button>
-
-    </div>
-
-    <div class="summary">
-
-        <div class="card">
-            <h3>Total Fee</h3>
-            <p id="totalDisplay">KES 0</p>
-        </div>
-
-        <div class="card paid">
-            <h3>Amount Paid</h3>
-            <p id="paidDisplay">KES 0</p>
-        </div>
-
-        <div class="card balance">
-            <h3>Balance</h3>
-            <p id="balanceDisplay">KES 0</p>
-        </div>
-
-        <div class="card percent">
-            <h3>Completion</h3>
-            <p id="percentDisplay">0%</p>
-        </div>
-
-    </div>
-
-    <div class="progress-container">
-        <div id="progressBar"></div>
-    </div>
-
-    <div id="message"></div>
-
-    <div class="charts">
-
-        <div class="chart-box">
-            <canvas id="pieChart"></canvas>
-        </div>
-
-        <div class="chart-box">
-            <canvas id="barChart"></canvas>
-        </div>
-
-    </div>
+<p><strong>Registration Number:</strong> {{ student.registration_number }}</p>
+<p><strong>Name:</strong> {{ student.first_name }} {{ student.last_name }}</p>
+<p><strong>Course:</strong> {{ student.course }}</p>
+<p><strong>Year:</strong> {{ student.year }}</p>
 
 </div>
 
+<!-- FEE DATA BRIDGE -->
+<div id="feeData"
+     data-total="{{ fee.total_fee }}"
+     data-paid="{{ fee.amount_paid }}"
+     data-balance="{{ balance }}"
+     data-percentage="{{ percentage }}">
+</div>
+
+<!-- FEE INFO -->
+<div class="fee-info">
+
+<h2>Fee Information</h2>
+
+<div class="summary">
+
+<div class="summary-card">
+<h3>Total Fee</h3>
+<p>KES {{ fee.total_fee }}</p>
+</div>
+
+<div class="summary-card">
+<h3>Amount Paid</h3>
+<p>KES {{ fee.amount_paid }}</p>
+</div>
+
+<div class="summary-card">
+<h3>Balance</h3>
+<p>KES {{ balance }}</p>
+</div>
+
+<div class="summary-card">
+<h3>Completion</h3>
+<p>{{ percentage }}%</p>
+</div>
+
+</div>
+
+</div>
+
+<!-- PROGRESS -->
+<div class="payment-progress">
+
+<h2>Payment Progress</h2>
+
+<div class="progress-container">
+<div id="progressBar"></div>
+</div>
+
+</div>
+
+<!-- STATUS -->
+<div class="payment-status">
+
+<h2>Payment Status</h2>
+
+<p id="statusText">{{ remark }}</p>
+
+</div>
+
+<!-- CHARTS -->
+<div class="charts">
+
+<div class="chart-card">
+<h2>Payment Distribution</h2>
+<canvas id="pieChart"></canvas>
+</div>
+
+<div class="chart-card">
+<h2>Fee Analysis</h2>
+<canvas id="barChart"></canvas>
+</div>
+
+</div>
+
+<!-- PAYMENT HISTORY 
+<div class="payment-history">
+
+<h2>Payment History</h2>
+
+<table>
+
+<tr>
+<th>Date</th>
+<th>Amount Paid</th>
+</tr>
+
+{% for payment in payments %}
+
+<tr>
+<td>{{ payment.payment_date }}</td>
+<td>KES {{ payment.amount_paid }}</td>
+</tr>
+
+{% empty %}
+
+<tr>
+<td colspan="2">No payment records available.</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+-->
+
+<!-- REMARKS -->
+<div class="remarks">
+
+<h2>Remarks</h2>
+<p id="remarksMessage">{{ remark }}</p>
+
+</div>
+
+<!-- BUTTON -->
+<div class="buttons">
+<a href="{% url 'dashboard' %}" class="btn">Back to Dashboard</a>
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= JAVASCRIPT ================= -->
 <script>
 
 let pieChart;
 let barChart;
 
-function calculateFee() {
+function loadCharts() {
 
-    let total = Number(
-        document.getElementById("totalFee").value
-    );
+    const dataEl = document.getElementById("feeData");
 
-    let paid = Number(
-        document.getElementById("amountPaid").value
-    );
+    let total = Number(dataEl.dataset.total);
+    let paid = Number(dataEl.dataset.paid);
+    let balance = Number(dataEl.dataset.balance);
+    let percentage = Number(dataEl.dataset.percentage);
 
-    let balance = total - paid;
+    if (isNaN(total)) total = 0;
+    if (isNaN(paid)) paid = 0;
+    if (isNaN(balance)) balance = 0;
+    if (isNaN(percentage)) percentage = 0;
 
-    if (balance < 0) {
-        balance = 0;
+    // UPDATE PROGRESS BAR
+    document.getElementById("progressBar").style.width = percentage + "%";
+
+    // PIE CHART
+    const pieCtx = document.getElementById("pieChart");
+
+    if (pieChart) pieChart.destroy();
+
+    pieChart = new Chart(pieCtx, {
+        type: "doughnut",
+        data: {
+            labels: ["Paid", "Balance"],
+            datasets: [{
+                data: [paid, balance],
+                backgroundColor: ["#28a745", "#dc3545"]
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+    // BAR CHART
+    const barCtx = document.getElementById("barChart");
+
+    if (barChart) barChart.destroy();
+
+    barChart = new Chart(barCtx, {
+        type: "bar",
+        data: {
+            labels: ["Paid", "Balance"],
+            datasets: [{
+                label: "KES",
+                data: [paid, balance],
+                backgroundColor: ["#28a745", "#dc3545"]
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // STATUS MESSAGE LOGIC
+    const statusText = document.getElementById("statusText");
+
+    if (percentage === 0) {
+        statusText.innerText = "No payment made yet";
     }
-
-    let percentage = (paid / total) * 100;
-
-    if (isNaN(percentage)) {
-        percentage = 0;
+    else if (percentage < 50) {
+        statusText.innerText = "Payment is in progress";
     }
-
-    document.getElementById("totalDisplay").innerHTML =
-        "KES " + total.toLocaleString();
-
-    document.getElementById("paidDisplay").innerHTML =
-        "KES " + paid.toLocaleString();
-
-    document.getElementById("balanceDisplay").innerHTML =
-        "KES " + balance.toLocaleString();
-
-    document.getElementById("percentDisplay").innerHTML =
-        percentage.toFixed(1) + "%";
-
-    document.getElementById("progressBar").style.width =
-        percentage + "%";
-
-    if (paid >= total && total > 0) {
-        document.getElementById("message").innerHTML =
-            "🎉 Congratulations! Your fee is completely paid.";
+    else if (percentage < 100) {
+        statusText.innerText = "Almost complete";
     }
     else {
-        document.getElementById("message").innerHTML = "";
+        statusText.innerText = "Fully paid";
     }
-
-    if (pieChart) {
-        pieChart.destroy();
-    }
-
-    pieChart = new Chart(
-        document.getElementById("pieChart"),
-        {
-            type: "doughnut",
-            data: {
-                labels: ["Amount Paid", "Balance"],
-                datasets: [{
-                    data: [paid, balance],
-                    backgroundColor: [
-                        "#28a745",
-                        "#dc3545"
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: "bottom"
-                    }
-                }
-            }
-        }
-    );
-
-    if (barChart) {
-        barChart.destroy();
-    }
-
-    barChart = new Chart(
-        document.getElementById("barChart"),
-        {
-            type: "bar",
-            data: {
-                labels: ["Paid", "Balance"],
-                datasets: [{
-                    label: "Fee Status",
-                    data: [paid, balance],
-                    backgroundColor: [
-                        "#28a745",
-                        "#dc3545"
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        }
-    );
 }
 
-/* Automatically load charts and calculations */
-window.onload = function () {
-    calculateFee();
-};
+document.addEventListener("DOMContentLoaded", loadCharts);
 
 </script>
 

@@ -42,67 +42,129 @@ def academic_calendar(request):
     return render(request, 'SmartHubApp/academic_calendar.html')
 
 
+from django.shortcuts import render
+from .models import Student
+from datetime import datetime
+
+def generate_registration_number(course):
+
+    if course == "Computer Science": prefix = "CS"
+    elif course == "Information Technology": prefix = "IT"
+    else: prefix = "SE"
+
+    total = Student.objects.filter(course=course).count() + 1
+    number = total * 10
+    year = datetime.now().year
+
+    return f"{prefix}221-{number:04d}/{year}"
+
+
+def generate_username(first_name, last_name):
+
+    username = f"{first_name.lower()}{last_name.lower()}"
+
+    if not Student.objects.filter(username=username).exists():
+        return username
+
+    count = 1
+
+    while Student.objects.filter(username=f"{username}{count}").exists():
+        count += 1
+
+    return f"{username}{count}"
+
+
+def generate_institution_email(first_name, last_name):
+
+    email = f"{first_name.lower()}.{last_name.lower()}@smarthub.com"
+
+    if not Student.objects.filter(institution_email=email).exists():
+        return email
+
+    count = 1
+
+    while Student.objects.filter(institution_email=f"{first_name.lower()}.{last_name.lower()}{count}@smarthub.com").exists():
+        count += 1
+
+    return f"{first_name.lower()}.{last_name.lower()}{count}@smarthub.com"
+    
 def signup(request):
 
-    if request.method == 'POST':
+    if request.method == "POST":
 
-        if Student.objects.filter(
-            institution_email=request.POST['institution_email']
-        ).exists():
+        if request.POST["password"] != request.POST["confirm_password"]:
+            return render(request, "SmartHubApp/signup.html", {"error": "Passwords do not match."})
 
-            return render(request,
-                          'SmartHubApp/signup.html',
-                          {'error': 'Email already exists.'})
+        registration_number = generate_registration_number(request.POST["course"])
+        username = generate_username(request.POST["first_name"], request.POST["last_name"])
+        institution_email = generate_institution_email(request.POST["first_name"], request.POST["last_name"])
 
         student = Student(
-            first_name=request.POST['first_name'],
-            middle_name=request.POST['middle_name'],
-            last_name=request.POST['last_name'],
-            dob=request.POST['dob'],
-            gender=request.POST['gender'],
-            nationality=request.POST['nationality'],
-            phone_number=request.POST['phone_number'],
-            address=request.POST['address'],
-            county=request.POST['county'],
-            postal_code=request.POST['postal_code'],
-            faculty=request.POST['faculty'],
-            department=request.POST['department'],
-            course=request.POST['course'],
-            admission_number=request.POST['admission_number'],
-            year_of_study=request.POST['year_of_study'],
-            study_mode=request.POST['study_mode'],
-            guardian_name=request.POST['guardian_name'],
-            guardian_phone=request.POST['guardian_phone'],
-            personal_email=request.POST['personal_email'],
-            institution_email=request.POST['institution_email'],
-            username=request.POST['username'],
-            password=request.POST['password']
+            first_name=request.POST["first_name"],
+            middle_name=request.POST["middle_name"],
+            last_name=request.POST["last_name"],
+            dob=request.POST["dob"],
+            gender=request.POST["gender"],
+            nationality=request.POST["nationality"],
+            phone=request.POST["phone"],
+            county=request.POST["county"],
+            address=request.POST["address"],
+            postal_code=request.POST["postal_code"],
+            faculty=request.POST["faculty"],
+            department=request.POST["department"],
+            course=request.POST["course"],
+            year=request.POST["year"],
+            study_mode=request.POST["study_mode"],
+            guardian_name=request.POST["guardian_name"],
+            guardian_phone=request.POST["guardian_phone"],
+            personal_email=request.POST["personal_email"],
+            registration_number=registration_number,
+            institution_email=institution_email,
+            username=username,
+            password=request.POST["password"]
         )
-
-        if 'profile_photo' in request.FILES:
-            student.profile_photo = request.FILES['profile_photo']
 
         student.save()
 
-        return redirect('login')
+        
 
-    return render(request, 'SmartHubApp/signup.html')
+        if student.course == "Information Technology":
+            total_fee = 200000
+        elif student.course == "Computer Science":
+            total_fee = 225000
+        elif student.course == "Software Engineering":
+            total_fee = 250000
+        else:
+            total_fee = 200000
 
+        Fee.objects.create(
+            student=student,
+            total_fee=total_fee,
+            amount_paid=0
+        )
+
+        return render(request, "SmartHubApp/success.html", {"student": student})
+
+    return render(request, "SmartHubApp/signup.html")
+
+
+from django.db.models import Q
+from django.contrib.auth.hashers import check_password
 
 def student_login(request):
 
     if request.method == 'POST':
 
-        email = request.POST['institution_email']
+        login = request.POST['login']
         password = request.POST['password']
 
         try:
+
             student = Student.objects.get(
-                institution_email=email
+                Q(registration_number=login) | Q(institution_email=login)
             )
 
-            if check_password(password,
-                              student.password):
+            if check_password(password, student.password):
 
                 request.session['student_id'] = student.id
 
@@ -114,11 +176,10 @@ def student_login(request):
         return render(
             request,
             'SmartHubApp/login.html',
-            {'error': 'Invalid email or password'}
+            {'error': 'Invalid registration number, email or password.'}
         )
 
     return render(request, 'SmartHubApp/login.html')
-
 
 def dashboard(request):
 
@@ -160,44 +221,39 @@ def profile(request):
     )
 
 
-
-
 def unit_registration(request):
 
     if 'student_id' not in request.session:
         return redirect('login')
 
-    student = Student.objects.get(
-        id=request.session['student_id']
-    )
+    student = Student.objects.get(id=request.session['student_id'])
 
-    units = Unit.objects.all()
+    units = Unit.objects.filter(course=student.course, year=student.year)
+
+    registered_units = UnitRegistration.objects.filter(student=student)
 
     if request.method == 'POST':
 
-        selected_units = request.POST.getlist(
-            'units'
-        )
+        if registered_units.exists():
+            return redirect('unit_registration')
+
+        selected_units = request.POST.getlist('units')
 
         for unit_id in selected_units:
 
-            unit = Unit.objects.get(
-                id=unit_id
-            )
+            unit = Unit.objects.get(id=unit_id)
 
-            UnitRegistration.objects.get_or_create(
-                student=student,
-                unit=unit
-            )
+            UnitRegistration.objects.create(student=student, unit=unit)
 
-        return redirect('dashboard')
+        return redirect('unit_registration')
 
     return render(
         request,
         'SmartHubApp/unit_registration.html',
         {
             'student': student,
-            'units': units
+            'units': units,
+            'registered_units': registered_units
         }
     )
 
@@ -347,22 +403,37 @@ def payment(request):
     if 'student_id' not in request.session:
         return redirect('login')
 
-    student = Student.objects.get(
-        id=request.session['student_id']
-    )
+    student = Student.objects.get(id=request.session['student_id'])
 
-    fee = Fee.objects.filter(
-        student=student
-    ).first()
+    fee = Fee.objects.filter(student=student).first()
 
-    return render(
-        request,
-        'SmartHubApp/payment.html',
-        {
-            'student': student,
-            'fee': fee,
-        }
-    )
+    if not fee:
+        fee = Fee.objects.create(
+            student=student,
+            total_fee=0,
+            amount_paid=0
+        )
+
+    balance = fee.balance
+    percentage = fee.completion
+
+    if percentage == 0:
+        remark = "No payment made yet"
+    elif percentage < 50:
+        remark = "Payment is in progress"
+    elif percentage < 100:
+        remark = "Almost complete"
+    else:
+        remark = "Fully paid"
+
+    return render(request, "SmartHubApp/payment.html", {
+        "student": student,
+        "fee": fee,
+        "balance": balance,
+        "percentage": percentage,
+        "remark": remark
+    })
+    return render(request, "SmartHubApp/payment.html", context)
 
 
 def lecturer_evaluation(request):
@@ -399,3 +470,4 @@ def lecturer_evaluation(request):
         request,
         'SmartHubApp/lecturer_evaluation.html'
     )
+
